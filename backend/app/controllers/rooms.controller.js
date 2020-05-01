@@ -1,6 +1,7 @@
 import fs from "fs";
 import uuid from "uuid/v4";
 import path from "path";
+import spreadsheet from '../helpers/spreadsheet';
 
 const roomFilePath = "../file/matrix.room.web.json";
 
@@ -55,9 +56,19 @@ const fetchFromEnvironment = (env) => {
   return new Promise(resolve => resolve(roomsDetail));
 };
 
+const fetchFromEnvironmentAndSpreadsheet = (env) => {
+  const roomsData = env.ROOMS_DATA;
+  const roomsDetail = JSON.parse(roomsData);
+  return spreadsheet.listRooms(env.ROOMS_SPREADSHEET_KEY).then(spreadsheetRooms => {
+    return roomsDetail.concat(spreadsheetRooms);
+  });
+};
+
 const fetchRooms = (strategy) => {
   switch (strategy) {
     // TODO add suport to fetch from endpoint
+    case "ENVIRONMENT_AND_SPREADSHEET":
+      return fetchFromEnvironmentAndSpreadsheet(process.env);
     case "ENVIRONMENT":
       return fetchFromEnvironment(process.env);
     default:
