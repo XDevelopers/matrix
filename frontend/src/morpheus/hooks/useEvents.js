@@ -6,6 +6,7 @@ import { showBrowserNotification } from "../../notification";
 import { initEvents, closeConnection } from "../socket";
 
 const useEvents = (
+  onUpdateRooms,
   onSyncOffice,
   onAddUser,
   onRemoveUser,
@@ -40,6 +41,7 @@ const useEvents = (
         }
       }, 500);
 
+      events.onUpdateRooms(onUpdateRooms);
       events.onSyncOffice(onSyncOffice);
       events.onParticipantJoined((user, roomId) => {
         onAddUser(user, roomId);
@@ -80,6 +82,7 @@ const useEvents = (
     isLoggedIn,
     onAddUser,
     onRemoveUser,
+    onUpdateRooms,
     onSyncOffice,
     onUserEnterMeeting,
     onUserLeftMeeting,

@@ -83,6 +83,10 @@ class Office {
     this.io.sockets.emit("enter-room", userInRoom);
   }
 
+  updateRooms(rooms) {
+    this.io.sockets.emit("update-rooms", rooms);
+  }
+
   canDisconnectUser(userId) {
     const { sockets } = this.io.sockets;
     for (const socketId in sockets) {

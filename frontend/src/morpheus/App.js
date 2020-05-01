@@ -54,6 +54,7 @@ const MorpheusApp = ({
   onSetCurrentUser,
   onSetCurrentRoom,
   onAddRooms,
+  onUpdateRooms,
   onSyncOffice,
   onAddUser,
   onAddError,
@@ -86,6 +87,7 @@ const MorpheusApp = ({
     onAddError
   );
   useEvents(
+    onUpdateRooms,
     onSyncOffice,
     onAddUser,
     onRemoveUser,
@@ -167,6 +169,7 @@ MorpheusApp.propTypes = {
   onSetCurrentUser: PropTypes.func,
   onSetCurrentRoom: PropTypes.func,
   onAddRooms: PropTypes.func,
+  onUpdateRooms: PropTypes.func,
   onSyncOffice: PropTypes.func,
   onAddUser: PropTypes.func,
   onAddError: PropTypes.func,
@@ -190,6 +193,7 @@ MorpheusApp.defaultProps = {
   onSetCurrentUser: () => {},
   onSetCurrentRoom: () => {},
   onAddRooms: () => {},
+  onUpdateRooms: () => {},
   onSyncOffice: () => {},
   onAddUser: () => {},
   onAddError: () => {},
@@ -215,6 +219,7 @@ const mapDispatchToProps = {
   onSetCurrentUser: setCurrentUser,
   onSetCurrentRoom: setCurrentRoom,
   onAddRooms: addRooms,
+  onUpdateRooms: addRooms,
   onSyncOffice: syncOffice,
   onAddUser: addUser,
   onAddError: addError,

@@ -3,12 +3,10 @@ import cookieSession from "cookie-session";
 import bodyParser from "body-parser";
 import path from "path";
 import GoogleCredentialController from "./controllers/google.credentials.controller";
-import fetchRooms from "./controllers/rooms.controller";
 import assets from "./controllers/assets.controller";
 import routes from "./app.routes";
 import auth from "./app.auth";
 import {
-  ROOMS_SOURCE,
   ENVIRONMENT,
   GOOGLE_CREDENTIAL,
   ENFORCE_SSL,
@@ -69,22 +67,5 @@ app.use((req, res, next) => {
 });
 
 app.use(routes);
-
-const loadRooms = () => {
-  console.log('Loading rooms...')
-  fetchRooms(ROOMS_SOURCE)
-    .then((roomsData) => {
-      console.log(roomsData);
-      app.locals.roomsDetail = roomsData;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-}
-loadRooms();
-
-if (ROOMS_SOURCE === "ENVIRONMENT_AND_SPREADSHEET") {
-  setInterval(loadRooms, 10000);
-}
 
 module.exports = app;

@@ -69,6 +69,10 @@ OfficeEvents.prototype.onParticipantLeftMeet = function onParticipantLeftMeet(
   this.listenEvent("left-meet", callback);
 };
 
+OfficeEvents.prototype.onUpdateRooms = function onUpdateRooms(callback) {
+  this.listenEvent("update-rooms", callback);
+};
+
 OfficeEvents.prototype.onSyncOffice = function onSyncOffice(callback) {
   this.listenEvent("sync-office", callback);
 };
