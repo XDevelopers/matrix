@@ -70,13 +70,21 @@ app.use((req, res, next) => {
 
 app.use(routes);
 
-fetchRooms(ROOMS_SOURCE)
-  .then((roomsData) => {
-    console.log(roomsData);
-    app.locals.roomsDetail = roomsData;
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+const loadRooms = () => {
+  console.log('Loading rooms...')
+  fetchRooms(ROOMS_SOURCE)
+    .then((roomsData) => {
+      console.log(roomsData);
+      app.locals.roomsDetail = roomsData;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+loadRooms();
+
+if (ROOMS_SOURCE === "ENVIRONMENT_AND_SPREADSHEET") {
+  setInterval(loadRooms, 10000);
+}
 
 module.exports = app;
