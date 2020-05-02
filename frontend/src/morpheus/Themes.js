@@ -18,13 +18,7 @@ export const toggleTheme = currentTheme => {
 
 export const getDefaultTheme = () => {
   const { dark, light } = THEMES;
-  try {
-    return window.matchMedia("(prefers-color-scheme: dark)").match
-      ? dark
-      : light;
-  } catch (e) {
-    return light;
-  }
+  return dark;
 };
 
 /**

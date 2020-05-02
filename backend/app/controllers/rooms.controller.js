@@ -56,19 +56,15 @@ const fetchFromEnvironment = (env) => {
   return new Promise(resolve => resolve(roomsDetail));
 };
 
-const fetchFromEnvironmentAndSpreadsheet = (env) => {
-  const roomsData = env.ROOMS_DATA;
-  const roomsDetail = JSON.parse(roomsData);
-  return spreadsheet.listRooms(env.ROOMS_SPREADSHEET_KEY).then(spreadsheetRooms => {
-    return roomsDetail.concat(spreadsheetRooms);
-  });
+const fetchFromSpreadsheet = (env) => {
+  return spreadsheet.listRooms(env.ROOMS_SPREADSHEET_KEY);
 };
 
 const fetchRooms = (strategy) => {
   switch (strategy) {
     // TODO add suport to fetch from endpoint
-    case "ENVIRONMENT_AND_SPREADSHEET":
-      return fetchFromEnvironmentAndSpreadsheet(process.env);
+    case "SPREADSHEET":
+      return fetchFromSpreadsheet(process.env);
     case "ENVIRONMENT":
       return fetchFromEnvironment(process.env);
     default:

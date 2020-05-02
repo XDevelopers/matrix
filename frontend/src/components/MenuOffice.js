@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
     marginLeft: 0,
+    marginRight: 20,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
@@ -80,6 +81,7 @@ const MenuOffice = ({
           }}
         />
       </div>
+      <ManageRoomsButton />
       <Tooltip title="Show only full room">
         <Checkbox
           icon={<SupervisedUserCircle />}
@@ -97,7 +99,6 @@ const MenuOffice = ({
           onChangeSettings("notificationDisabled", event.target.checked);
         }}
       />
-      <ManageRoomsButton />
     </>
   );
 };
