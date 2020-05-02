@@ -15,9 +15,15 @@ const mapRowToRoom = row => {
         name: row[1]
     };
     if (row[2]) {
-        room.disableMeeting = row[2].toLowerCase() === 'true'
+        room.color = row[2]
     }
     if (row[3]) {
+        room.blink = row[3].toLowerCase() === 'true'
+    }
+    if (row[4]) {
+        room.disableMeeting = row[4].toLowerCase() === 'true'
+    }
+    if (row[5]) {
         room.externalMeetUrl = row[3]
     }
     return room;

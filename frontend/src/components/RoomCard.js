@@ -11,6 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
+
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
@@ -46,17 +47,75 @@ const useStyles = makeStyles(() => ({
       backgroundSize: "contain",
       backgroundRepeat: "no-repeat"
     }
+  },
+  '@keyframes blinker': {
+    from: { opacity: 1 },
+    to: { opacity: 0 }
+  },
+  blinker: {
+    animationName: '$blinker',
+    animationDuration: '2s',
+    animationTimingFunction: 'jump-start',
+    animationIterationCount: 'infinite'
   }
 }));
 
-const RoomCard = ({ name, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
+const cardNameColor = (color) => {
+  if (!color) {
+    return undefined;
+  }
+  return invertColor(color, true);
+}
+
+const cardButtonColor = (color) => {
+  if (!color) {
+    return 'primary';
+  }
+  return invertColor(color, true);
+}
+
+const padZero = (str, len) => {
+  len = len || 2;
+  var zeros = new Array(len).join('0');
+  return (zeros + str).slice(-len);
+}
+
+const invertColor = (hex, bw) => {
+  if (hex.indexOf('#') === 0) {
+    hex = hex.slice(1);
+  }
+  // convert 3-digit hex to 6-digits.
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  if (hex.length !== 6) {
+    throw new Error('Invalid HEX color.');
+  }
+  var r = parseInt(hex.slice(0, 2), 16),
+    g = parseInt(hex.slice(2, 4), 16),
+    b = parseInt(hex.slice(4, 6), 16);
+  if (bw) {
+    // http://stackoverflow.com/a/3943023/112731
+    return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+      ? '#000000'
+      : '#FFFFFF';
+  }
+  // invert color components
+  r = (255 - r).toString(16);
+  g = (255 - g).toString(16);
+  b = (255 - b).toString(16);
+  // pad each with zeros and return
+  return "#" + padZero(r) + padZero(g) + padZero(b);
+}
+
+const RoomCard = ({ name, color, blink, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
   const userToShow = isExpanded ? users : users.slice(0, 3);
   const totalUsersHidden = users.length - userToShow.length;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ backgroundColor: color }}>
       <CardActionArea
         className={classes.contentAction}
         onClick={() => {
@@ -64,7 +123,7 @@ const RoomCard = ({ name, users, meetingEnabled, onEnterRoom, onEnterMeeting }) 
         }}
       >
         <CardContent className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" className={blink ? classes.blinker : undefined} style={{ color: cardNameColor(color) }}>
             {name}
           </Typography>
           <div className={classes.userGrid}>
@@ -89,11 +148,11 @@ const RoomCard = ({ name, users, meetingEnabled, onEnterRoom, onEnterMeeting }) 
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={onEnterRoom}>
+        <Button size="small" style={{ color: cardButtonColor(color) }} onClick={onEnterRoom}>
           Enter room
         </Button>
         {meetingEnabled && (
-          <Button size="small" color="primary" onClick={onEnterMeeting}>
+          <Button size="small" style={{ color: cardButtonColor(color) }} onClick={onEnterMeeting}>
             Join meeting
           </Button>
         )}
@@ -107,15 +166,20 @@ RoomCard.propTypes = {
   onEnterMeeting: PropTypes.func,
   meetingEnabled: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.object),
-  name: PropTypes.string
+  name: PropTypes.string,
+  color: PropTypes.string,
+  blink: PropTypes.bool
+
 };
 
 RoomCard.defaultProps = {
-  onEnterRoom: () => {},
-  onEnterMeeting: () => {},
+  onEnterRoom: () => { },
+  onEnterMeeting: () => { },
   meetingEnabled: true,
   users: [],
-  name: ""
+  name: "",
+  color: undefined,
+  blink: false
 };
 
 export default RoomCard;
