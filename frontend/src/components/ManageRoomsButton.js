@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import IconButton from "@material-ui/core/IconButton";
-import AddBox from "@material-ui/icons/AddBox";
+import AddCircleOutline from "@material-ui/icons/AddCircleOutline";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const spreadsheetId = '1bYvuKaxKEytwBOqwEFVf4iDkkTtO2Dvk4GsmJKlhcwQ';
@@ -20,7 +20,7 @@ function ManageRoomsButton() {
         aria-label="Manage Rooms"
         aria-controls="menu-appbar"
         onClick={openSpreadsheet}>
-        <AddBox />
+        <AddCircleOutline />
       </IconButton>
     </Tooltip>
   );

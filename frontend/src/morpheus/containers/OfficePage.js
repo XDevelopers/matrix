@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Grid from "../../components/Grid";
+import ManageRoomsCard from "../../components/ManageRoomsCard";
 import RoomCard from "../../components/RoomCard";
 import {
   selectOffice,
@@ -82,6 +83,7 @@ const OfficePage = ({
             }}
           />
         ))}
+        <ManageRoomsCard />
       </Grid>
     </div>
   );
