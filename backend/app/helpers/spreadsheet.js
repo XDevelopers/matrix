@@ -24,7 +24,7 @@ const mapRowToRoom = row => {
         room.disableMeeting = row[4].toLowerCase() === 'true'
     }
     if (row[5]) {
-        room.externalMeetUrl = row[3]
+        room.externalMeetUrl = row[5]
     }
     return room;
 }
@@ -35,7 +35,7 @@ const listRooms = (spreadsheetId) => {
         return new Promise((resolve, reject) => {
             sheets.spreadsheets.values.get({
                 spreadsheetId: spreadsheetId,
-                range: 'rooms!A2:D',
+                range: 'rooms!A2:F',
             }, (err, res) => {
                 if (err) {
                     reject('The API returned an error: ' + err);
