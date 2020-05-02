@@ -62,7 +62,11 @@ const useStyles = makeStyles(() => ({
 
 const parseStyle = (styleStr) => {
   try {
-    return JSON.parse(styleStr);
+    const defaults = {
+      backgroundSize: 'cover',
+      backgroundBlendMode: 'hard-light'
+    }
+    return Object.assign({}, defaults, JSON.parse(styleStr));
   } catch (err) {
     console.log('invalid style', styleStr, err);
     return {};
