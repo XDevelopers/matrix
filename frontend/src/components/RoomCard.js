@@ -61,10 +61,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 const parseStyle = (styleStr) => {
+  if (!styleStr) {
+    return {}
+  }
   try {
     const defaults = {
       backgroundSize: 'cover',
       backgroundBlendMode: 'hard-light'
+    }
+    if (styleStr.startsWith('#')) {
+      return Object.assign({}, defaults, { backgroundColor: styleStr });
+    }
+    if (styleStr.startsWith('http')) {
+      return Object.assign({}, defaults, { backgroundImage: `url(${styleStr})` });
     }
     return Object.assign({}, defaults, JSON.parse(styleStr));
   } catch (err) {
