@@ -10,6 +10,7 @@ import debounce from "lodash.debounce";
 
 import ThemeCheckbox from "./ThemeCheckbox";
 import NotificationCheckbox from "./NotificationCheckbox";
+import ManageRoomsButton from "./ManageRoomsButton";
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -96,6 +97,7 @@ const MenuOffice = ({
           onChangeSettings("notificationDisabled", event.target.checked);
         }}
       />
+      <ManageRoomsButton />
     </>
   );
 };
@@ -113,9 +115,9 @@ MenuOffice.propTypes = {
 };
 
 MenuOffice.defaultProps = {
-  onChangeFilter: () => {},
-  onChangeSettings: () => {},
-  onChangeTheme: () => {},
+  onChangeFilter: () => { },
+  onChangeSettings: () => { },
+  onChangeTheme: () => { },
   filter: {},
   settings: {}
 };
