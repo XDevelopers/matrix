@@ -15,7 +15,7 @@ const mapRowToRoom = row => {
         name: row[1]
     };
     if (row[2]) {
-        room.color = row[2]
+        room.style = row[2]
     }
     if (row[3]) {
         room.blink = row[3].toLowerCase() === 'true'

@@ -60,14 +60,25 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const cardNameColor = (color) => {
+const parseStyle = (styleStr) => {
+  try {
+    return JSON.parse(styleStr);
+  } catch (err) {
+    console.log('invalid style', styleStr, err);
+    return {};
+  }
+}
+
+const cardNameColor = (style) => {
+  const color = style.backgroundColor;
   if (!color) {
     return undefined;
   }
   return invertColor(color, true);
 }
 
-const cardButtonColor = (color) => {
+const cardButtonColor = (style) => {
+  const color = style.backgroundColor;
   if (!color) {
     return 'primary';
   }
@@ -108,14 +119,16 @@ const invertColor = (hex, bw) => {
   return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
-const RoomCard = ({ name, color, blink, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
+const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
   const userToShow = isExpanded ? users : users.slice(0, 3);
   const totalUsersHidden = users.length - userToShow.length;
 
+  const style = parseStyle(styleStr);
+
   return (
-    <Card className={classes.root} style={{ backgroundColor: color }}>
+    <Card className={classes.root} style={style}>
       <CardActionArea
         className={classes.contentAction}
         onClick={() => {
@@ -123,7 +136,7 @@ const RoomCard = ({ name, color, blink, users, meetingEnabled, onEnterRoom, onEn
         }}
       >
         <CardContent className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2" className={blink ? classes.blinker : undefined} style={{ color: cardNameColor(color) }}>
+          <Typography gutterBottom variant="h5" component="h2" className={blink ? classes.blinker : undefined} style={{ color: cardNameColor(style) }}>
             {name}
           </Typography>
           <div className={classes.userGrid}>
@@ -148,11 +161,11 @@ const RoomCard = ({ name, color, blink, users, meetingEnabled, onEnterRoom, onEn
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" style={{ color: cardButtonColor(color) }} onClick={onEnterRoom}>
+        <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterRoom}>
           Enter room
         </Button>
         {meetingEnabled && (
-          <Button size="small" style={{ color: cardButtonColor(color) }} onClick={onEnterMeeting}>
+          <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterMeeting}>
             Join meeting
           </Button>
         )}
@@ -167,7 +180,7 @@ RoomCard.propTypes = {
   meetingEnabled: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,
-  color: PropTypes.string,
+  style: PropTypes.string,
   blink: PropTypes.bool
 
 };
@@ -178,7 +191,7 @@ RoomCard.defaultProps = {
   meetingEnabled: true,
   users: [],
   name: "",
-  color: undefined,
+  style: undefined,
   blink: false
 };
 

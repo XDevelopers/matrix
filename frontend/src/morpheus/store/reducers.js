@@ -62,7 +62,7 @@ const buildOfficeState = state => {
   let office = rooms.map(room => ({
     id: room.id,
     name: room.name,
-    color: room.color,
+    style: room.style,
     blink: room.blink,
     meetingEnabled: !room.disableMeeting,
     externalMeetUrl: room.externalMeetUrl,
