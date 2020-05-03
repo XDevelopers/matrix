@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -57,6 +57,13 @@ const useStyles = makeStyles(() => ({
     animationDuration: '2s',
     animationTimingFunction: 'jump-start',
     animationIterationCount: 'infinite'
+  },
+  timerComponent: {
+    fontSize: '1.5em',
+    fontFamily: "'Courier New', Courier, monospace",
+    padding: 10,
+    paddingLeft: 16,
+    backgroundColor: 'rgba(0, 0, 0, .5)',
   }
 }));
 
@@ -132,6 +139,43 @@ const invertColor = (hex, bw) => {
   return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
+const calculateTimeLeft = () => {
+  const difference = +new Date("2020-05-03 19:40") - +new Date();
+  let timeLeft = {};
+
+  if (difference > 0) {
+    timeLeft = {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60)
+    };
+  }
+
+  return timeLeft;
+};
+
+const countdownText = (timeLeft) => {
+  const c = (key) => {
+    if (!timeLeft[key]) {
+      return '';
+    }
+    return `${timeLeft[key]} ${timeLeft[key] > 1 ? key : key.substring(0, key.length - 1)}`;
+  }
+
+  const time = `${timeLeft['hours']}h${timeLeft['minutes']}m${timeLeft['seconds']}s`
+  if (timeLeft['days']) {
+    return `${c('days')} ${c('hours')}`
+  }
+  if (timeLeft['hours']) {
+    return `${c('hours')} ${c('minutes')}`
+  }
+  if (timeLeft['minutes']) {
+    return `${c('minutes')} ${c('seconds')}`
+  }
+  return c('seconds')
+}
+
 const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
@@ -139,6 +183,33 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
   const totalUsersHidden = users.length - userToShow.length;
 
   const style = parseStyle(styleStr);
+
+  const RoomActions = () => {
+    return (
+      <CardActions>
+        <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterRoom}>
+          Enter room
+        </Button>
+        {meetingEnabled && (
+          <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterMeeting}>
+            Join meeting
+          </Button>
+        )}
+      </CardActions>
+    )
+  }
+
+  const RoomCountdown = () => {
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    useEffect(() => {
+      setTimeout(() => {
+        setTimeLeft(calculateTimeLeft());
+      }, 1000);
+    });
+    return (
+      <div className={classes.timerComponent}>{countdownText(timeLeft)}</div>
+    );
+  }
 
   return (
     <Card className={classes.root} style={style}>
@@ -172,17 +243,9 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
             {users.length === 0 && <div className={classes.emptyUserSpace} />}
           </div>
         </CardContent>
+        {/* <RoomActions /> */}
+        <RoomCountdown />
       </CardActionArea>
-      <CardActions>
-        <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterRoom}>
-          Enter room
-        </Button>
-        {meetingEnabled && (
-          <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterMeeting}>
-            Join meeting
-          </Button>
-        )}
-      </CardActions>
     </Card>
   );
 };
