@@ -6,7 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "../../components/Grid";
 import ManageRoomsCard from "../../components/ManageRoomsCard";
 import RoomCard from "../../components/RoomCard";
-import CountdownCard from "../../components/CountdownCard";
 import {
   selectOffice,
   selectCurrentRoom,
@@ -84,7 +83,6 @@ const OfficePage = ({
             }}
           />
         ))}
-        <CountdownCard />
         <ManageRoomsCard />
       </Grid>
     </div>
