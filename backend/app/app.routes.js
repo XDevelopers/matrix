@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "passport";
+import { userInfo } from "./helpers/directory";
 
 const router = express.Router();
 
@@ -39,6 +40,12 @@ router.get("/remove", (req, res) => {
 
 router.get("/rooms", (req, res) => {
   res.json(req.app.locals.roomsDetail);
+});
+
+router.get("/user-info", (req, res) => {
+  userInfo().then(() => {
+    res.json({});
+  });
 });
 
 router.get("/morpheus*", (req, res) => {
