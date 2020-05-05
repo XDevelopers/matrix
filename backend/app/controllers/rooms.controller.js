@@ -1,7 +1,7 @@
 import fs from "fs";
 import uuid from "uuid/v4";
 import path from "path";
-import spreadsheet from '../helpers/spreadsheet';
+import spreadsheet from '../helpers/gsuite/spreadsheet';
 
 const roomFilePath = "../file/matrix.room.web.json";
 
@@ -56,15 +56,15 @@ const fetchFromEnvironment = (env) => {
   return new Promise(resolve => resolve(roomsDetail));
 };
 
-const fetchFromSpreadsheet = (env) => {
-  return spreadsheet.listRooms(env.ROOMS_SPREADSHEET_KEY);
+const fetchGSuite = (env) => {
+  return spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY);
 };
 
 const fetchRooms = (strategy) => {
   switch (strategy) {
     // TODO add suport to fetch from endpoint
-    case "SPREADSHEET":
-      return fetchFromSpreadsheet(process.env);
+    case "GSUITE":
+      return fetchGSuite(process.env);
     case "ENVIRONMENT":
       return fetchFromEnvironment(process.env);
     default:

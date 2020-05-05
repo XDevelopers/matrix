@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { listEvents } from "./helpers/audit";
+import { listEvents } from "./helpers/gsuite/audit";
 
 const router = express.Router();
 

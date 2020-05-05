@@ -87,7 +87,7 @@ const reloadRoomsListener = (emiter) => {
   }
   loadRooms();
 
-  if (ROOMS_SOURCE === "SPREADSHEET") {
+  if (ROOMS_SOURCE === "GSUITE") {
     setInterval(loadRooms, 10000);
   }
 };
