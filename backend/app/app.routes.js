@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { userInfo } from "./helpers/directory";
+import { listEvents } from "./helpers/audit";
 
 const router = express.Router();
 
@@ -43,9 +43,8 @@ router.get("/rooms", (req, res) => {
 });
 
 router.get("/user-info", (req, res) => {
-  userInfo().then(() => {
-    res.json({});
-  });
+  listEvents();
+  res.json({});
 });
 
 router.get("/morpheus*", (req, res) => {
