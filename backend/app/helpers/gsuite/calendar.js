@@ -31,10 +31,7 @@ const listRoomsAuth = (calendarId, auth) => {
     }).then(result => result.data.items.map(parseRoom));
 }
 
-const listRooms = async (calendarId) => {
-    const auth = await getAuth();
-    return listRoomsAuth(calendarId, auth);
-}
+const listRooms = (calendarId) => getAuth().then(auth => listRoomsAuth(calendarId, auth));
 
 module.exports = {
     listRooms: listRooms
