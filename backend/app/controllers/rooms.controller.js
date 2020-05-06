@@ -58,10 +58,11 @@ const fetchFromEnvironment = (env) => {
 };
 
 const fetchGSuite = (env) => {
-  const promises = []
-  promises.push(spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY));
-  promises.push(calendar.listRooms(env.GSUITE_CALENDAR_ID));
-  return Promise.all(promises).then(result => result[0].concat(result[1]));
+  return spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY);
+  // const promises = []
+  // promises.push(spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY));
+  // promises.push(calendar.listRooms(env.GSUITE_CALENDAR_ID));
+  // return Promise.all(promises).then(result => result[0].concat(result[1]));
 };
 
 const fetchRooms = (strategy) => {

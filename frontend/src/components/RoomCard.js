@@ -16,8 +16,7 @@ const OPEN_ROOM_MILLIS = 30 * 60 * 1000;
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "column",
-    minHeight: 150
+    flexDirection: "column"
   },
   contentAction: {
     flex: 1,
@@ -92,19 +91,27 @@ const parseStyle = (styleStr) => {
 }
 
 const cardNameColor = (style) => {
-  const color = style.backgroundColor;
-  if (!color) {
-    return undefined;
+  try {
+    const color = style.backgroundColor;
+    if (!color) {
+      return undefined;
+    }
+    return invertColor(color, true);
+  } catch (err) {
+    return "#FFF";
   }
-  return invertColor(color, true);
 }
 
 const cardButtonColor = (style) => {
-  const color = style.backgroundColor;
-  if (!color) {
-    return 'primary';
+  try {
+    const color = style.backgroundColor;
+    if (!color) {
+      return 'primary';
+    }
+    return invertColor(color, true);
+  } catch (err) {
+    return "#FFF";
   }
-  return invertColor(color, true);
 }
 
 const padZero = (str, len) => {
