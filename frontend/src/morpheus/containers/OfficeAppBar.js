@@ -27,11 +27,11 @@ const useStyles = makeStyles(theme => ({
   logo: {
     width: 120,
     marginTop: 10,
-    filter: 'drop-shadow(5px 5px 5px #222)'
+    filter: 'drop-shadow(5px 5px 2px #222)'
   }
 }));
 
-const LOGO = "https://storage.googleapis.com/dexmatrix-public/images/logo.png";
+const LOGO = "https://storage.googleapis.com/dexmatrix-public/images/logo-dextra.png";
 
 const OfficeAppBar = ({
   onChangeOfficeFilter,
