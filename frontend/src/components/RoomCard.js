@@ -243,9 +243,8 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
             {users.length === 0 && <div className={classes.emptyUserSpace} />}
           </div>
         </CardContent>
-        <RoomActions />
-        {/* <RoomCountdown /> */}
       </CardActionArea>
+      <RoomActions />
     </Card>
   );
 };
