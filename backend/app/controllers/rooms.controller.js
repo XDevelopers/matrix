@@ -2,6 +2,7 @@ import fs from "fs";
 import uuid from "uuid/v4";
 import path from "path";
 import spreadsheet from '../helpers/gsuite/spreadsheet';
+import calendar from '../helpers/gsuite/calendar';
 
 const roomFilePath = "../file/matrix.room.web.json";
 
@@ -57,7 +58,10 @@ const fetchFromEnvironment = (env) => {
 };
 
 const fetchGSuite = (env) => {
-  return spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY);
+  const promises = []
+  promises.push(spreadsheet.listRooms(env.GSUITE_SPREADSHEET_KEY));
+  promises.push(calendar.listRooms(env.GSUITE_CALENDAR_ID));
+  return Promise.all(promises).then(result => result[0].concat(result[1]));
 };
 
 const fetchRooms = (strategy) => {

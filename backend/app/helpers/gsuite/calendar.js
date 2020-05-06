@@ -8,37 +8,34 @@ const getAuth = () => {
     });
 }
 
-const xpto = (auth) => {
+const parseRoom = (event) => {
+    const entryPoints = event.conferenceData.entryPoints.filter(e => e.entryPointType === 'video')
+    const room = {
+        id: event.id,
+        name: event.summary,
+        start: event.start.dateTime,
+        end: event.end.dateTime,
+        externalMeetUrl: entryPoints.length > 0 ? entryPoints[0].uri : undefined
+    };
+    return room;
+}
+
+const listRoomsAuth = (calendarId, auth) => {
     const calendar = google.calendar({ version: 'v3', auth });
-    calendar.events.list({
-        calendarId: 'primary',
+    return calendar.events.list({
+        calendarId: calendarId,
         timeMin: (new Date()).toISOString(),
         maxResults: 10,
         singleEvents: true,
         orderBy: 'startTime',
-    }, (err, res) => {
-        if (err) return console.log('The API returned an error: ' + err);
-        const events = res.data.items;
-        if (events.length) {
-            console.log('Upcoming 10 events:');
-            events.map((event, i) => {
-                console.log('e', event);
-                const start = event.start.dateTime || event.start.date;
-                console.log(`${start} - ${event.summary}`);
-            });
-        } else {
-            console.log('No upcoming events found.');
-        }
-    });
+    }).then(result => result.data.items.map(parseRoom));
 }
 
-const listCals = (spreadsheetId) => {
-    return getAuth().then(auth => {
-        xpto(auth);
-    });
+const listRooms = async (calendarId) => {
+    const auth = await getAuth();
+    return listRoomsAuth(calendarId, auth);
 }
-
 
 module.exports = {
-    listCals: listCals
+    listRooms: listRooms
 };

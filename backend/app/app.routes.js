@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
-import { listEvents } from "./helpers/gsuite/audit";
+import { findEvents } from "./helpers/gsuite/calendar";
+import { userInfo } from "./helpers/gsuite/directory";
 
 const router = express.Router();
 
@@ -42,8 +43,9 @@ router.get("/rooms", (req, res) => {
   res.json(req.app.locals.roomsDetail);
 });
 
-router.get("/user-info", (req, res) => {
-  listEvents();
+router.get("/xpto", (req, res) => {
+  findEvents();
+  // userInfo();
   res.json({});
 });
 

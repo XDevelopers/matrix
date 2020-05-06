@@ -66,6 +66,8 @@ const buildOfficeState = state => {
     blink: room.blink,
     meetingEnabled: !room.disableMeeting,
     externalMeetUrl: room.externalMeetUrl,
+    start: room.start,
+    end: room.end,
     users: usersInRoom.filter(u => u.room === room.id).map(u => u.user)
   }));
 

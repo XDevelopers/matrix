@@ -11,11 +11,13 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
+const OPEN_ROOM_MILLIS = 30 * 60 * 1000;
 
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    minHeight: 150
   },
   contentAction: {
     flex: 1,
@@ -59,8 +61,8 @@ const useStyles = makeStyles(() => ({
     animationIterationCount: 'infinite'
   },
   timerComponent: {
-    fontSize: '1.5em',
-    fontFamily: "'Courier New', Courier, monospace",
+    // fontSize: '1.2em',
+    // fontFamily: "'Courier New', Courier, monospace",
     padding: 10,
     paddingLeft: 16,
     backgroundColor: 'rgba(0, 0, 0, .5)',
@@ -139,8 +141,10 @@ const invertColor = (hex, bw) => {
   return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
-const calculateTimeLeft = () => {
-  const difference = +new Date("2020-05-03 19:40") - +new Date();
+const calculateTimeLeftMillis = (start) => +Date.parse(start) - +new Date();
+
+const calculateTimeLeft = (start) => {
+  const difference = calculateTimeLeftMillis(start);
   let timeLeft = {};
 
   if (difference > 0) {
@@ -163,7 +167,6 @@ const countdownText = (timeLeft) => {
     return `${timeLeft[key]} ${timeLeft[key] > 1 ? key : key.substring(0, key.length - 1)}`;
   }
 
-  const time = `${timeLeft['hours']}h${timeLeft['minutes']}m${timeLeft['seconds']}s`
   if (timeLeft['days']) {
     return `${c('days')} ${c('hours')}`
   }
@@ -176,7 +179,7 @@ const countdownText = (timeLeft) => {
   return c('seconds')
 }
 
-const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
+const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
   const userToShow = isExpanded ? users : users.slice(0, 3);
@@ -199,17 +202,21 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
     )
   }
 
-  const RoomCountdown = () => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const RoomCountdown = ({ start }) => {
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(start));
     useEffect(() => {
+      let mounted = true;
       setTimeout(() => {
-        setTimeLeft(calculateTimeLeft());
+        mounted && setTimeLeft(calculateTimeLeft(start));
       }, 1000);
+      return () => mounted = false;
     });
     return (
       <div className={classes.timerComponent}>{countdownText(timeLeft)}</div>
     );
   }
+
+  const isOpenCalendar = start && calculateTimeLeftMillis(start) < OPEN_ROOM_MILLIS;
 
   return (
     <Card className={classes.root} style={style}>
@@ -220,7 +227,7 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
         }}
       >
         <CardContent className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2" className={blink ? classes.blinker : undefined} style={{ color: cardNameColor(style) }}>
+          <Typography gutterBottom variant="h5" component="h2" className={blink || isOpenCalendar ? classes.blinker : undefined} style={{ color: cardNameColor(style) }}>
             {name}
           </Typography>
           <div className={classes.userGrid}>
@@ -244,7 +251,9 @@ const RoomCard = ({ name, style: styleStr, blink, users, meetingEnabled, onEnter
           </div>
         </CardContent>
       </CardActionArea>
-      <RoomActions />
+      {
+        start && !isOpenCalendar ? <RoomCountdown start={start} /> : <RoomActions />
+      }
     </Card>
   );
 };

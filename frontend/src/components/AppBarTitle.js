@@ -6,8 +6,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const LOGO = "https://storage.googleapis.com/dexmatrix-public/images/logo-dextra.png";
 
 const useStyles = makeStyles(() => ({
-  title: {
+  root: {
     flexGrow: 1,
+    paddingTop: 4,
+    display: 'inline-flex'
+  },
+  title: {
     filter: 'drop-shadow(5px 5px 2px #222)'
   },
   logo: {
@@ -22,12 +26,12 @@ const AppBarTitle = ({ children }) => {
   const classes = useStyles();
 
   return (
-    <>
+    <section className={classes.root}>
       <img className={classes.logo} src={LOGO} />
       <Typography variant="h6" className={classes.title} color="secondary">
         {children}
       </Typography>
-    </>
+    </section>
   );
 };
 

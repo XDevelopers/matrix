@@ -16,8 +16,8 @@ const getAuth2 = (cb) => {
             console.log('err', err);
             return;
         }
-            // console.log('xxxxxxxx here')
-            // && authClient.createScopedRequired()
+        // console.log('xxxxxxxx here')
+        // && authClient.createScopedRequired()
         authClient = authClient.createScoped([
             'https://www.googleapis.com/auth/admin.directory.user.readonly'
         ]);
@@ -62,9 +62,20 @@ const xpto = (auth) => {
     });
 }
 
+const listRooms = (auth) => {
+    const service = google.admin({ version: 'directory_v1', auth: auth });
+    service.resources.calendars
+        .list({
+            customer: 'my_customer',
+        })
+        .then(x => {
+            console.log('x', x)
+        });
+}
+
 
 const userInfo = (spreadsheetId) => {
-    return getAuth2(xpto);
+    return getAuth2(listRooms);
 }
 
 
