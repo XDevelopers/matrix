@@ -64,7 +64,8 @@ const useStyles = makeStyles(() => ({
     // fontFamily: "'Courier New', Courier, monospace",
     padding: 10,
     paddingLeft: 16,
-    backgroundColor: 'rgba(0, 0, 0, .5)',
+    margin: 4, 
+    backgroundColor: 'rgba(0, 0, 0, .7)',
   }
 }));
 
@@ -98,6 +99,7 @@ const cardNameColor = (style) => {
     }
     return invertColor(color, true);
   } catch (err) {
+    console.log('error parsing color', err);
     return "#FFF";
   }
 }
@@ -106,10 +108,11 @@ const cardButtonColor = (style) => {
   try {
     const color = style.backgroundColor;
     if (!color) {
-      return 'primary';
+      return undefined;
     }
     return invertColor(color, true);
   } catch (err) {
+    console.log('error parsing color', err);
     return "#FFF";
   }
 }
