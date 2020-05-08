@@ -7,7 +7,16 @@ class Office {
     this.officeController = officeController;
     this.server = server;
     this.io = new SocketIO(server, {
-      pingTimeout: 30000
+      serveClient: true,
+      pingInterval: 10000,
+      pingTimeout: 60000,
+      upgradeTimeout: 30000,
+      agent: false,
+      cookie: false,
+      rejectUnauthorized: false,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      maxHttpBufferSize: 100000000
     });
   }
 
@@ -31,7 +40,7 @@ class Office {
       const currentUser = socket.user;
       currentUser.socketId = socket.id;
 
-      console.log("connected:", currentUser.id);
+      console.log("connected:", currentUser.id, new Date());
 
       const room_param = socket.handshake.query.room;
       const room = room_param || DEFAULT_ROOM;
@@ -42,7 +51,7 @@ class Office {
 
       socket.on("disconnect", socket => {
         if (this.canDisconnectUser(currentUser.id)) {
-          console.log("disconect:", currentUser.id);
+          console.log("disconect:", currentUser.id, new Date());
           this.io.sockets.emit("disconnect", currentUser.id);
           this.officeController.removeUser(currentUser.id);
         }
