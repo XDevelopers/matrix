@@ -9,11 +9,12 @@ import RoomCard from "../../components/RoomCard";
 import {
   selectOffice,
   selectCurrentRoom,
-  selectRooms
+  selectRooms,
+  selectCurrentUser
 } from "../store/selectors";
-import { emitEnterInRoom, emitStartMeeting, emitLeftMeeting} from "../socket";
+import { emitEnterInRoom, emitStartMeeting, emitLeftMeeting } from "../socket";
 import { setCurrentRoom } from "../store/actions";
-import { CurrentRoomPropType } from "../store/models";
+import { CurrentRoomPropType, CurrentUserPropType } from "../store/models";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +28,8 @@ const OfficePage = ({
   match,
   office,
   rooms,
-  currentRoom
+  currentRoom,
+  currentUser
 }) => {
   const classes = useStyles();
   useState(() => {
@@ -58,26 +60,27 @@ const OfficePage = ({
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);
               console.log(room.externalMeetUrl);
-              if(room.externalMeetUrl){
-                emitStartMeeting();   
-                var externalMeetRoom = window.open(room.externalMeetUrl);
+              if (room.externalMeetUrl) {
+                emitStartMeeting();
+                const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
+                var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
 
-                var externalMeetRoomMonitoring = function(){
-                  window.setTimeout(function() {
+                var externalMeetRoomMonitoring = function () {
+                  window.setTimeout(function () {
                     console.log(externalMeetRoom.closed);
                     if (externalMeetRoom.closed) {
                       console.log('The external meeting has been closed');
                       emitLeftMeeting();
-                    }else{
+                    } else {
                       externalMeetRoomMonitoring();
                     }
-                    
-                    }, 1000);
+
+                  }, 1000);
                 }
 
                 externalMeetRoomMonitoring();
 
-              }else{
+              } else {
                 history.push(`/morpheus/room/${room.id}`);
               }
             }}
@@ -102,20 +105,23 @@ OfficePage.propTypes = {
       roomId: PropTypes.string
     }).isRequired
   }).isRequired,
-  currentRoom: CurrentRoomPropType
+  currentRoom: CurrentRoomPropType,
+  currentUser: CurrentUserPropType
 };
 
 OfficePage.defaultProps = {
-  onSetCurrentRoom: () => {},
+  onSetCurrentRoom: () => { },
   office: [],
   rooms: [],
-  currentRoom: {}
+  currentRoom: {},
+  currentUser: {}
 };
 
 const mapStateToProps = state => ({
   office: selectOffice(state),
   rooms: selectRooms(state),
-  currentRoom: selectCurrentRoom(state)
+  currentRoom: selectCurrentRoom(state),
+  currentUser: selectCurrentUser(state)
 });
 
 const mapDispatchToProps = {
