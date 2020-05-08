@@ -6,7 +6,9 @@ class Office {
   constructor(officeController, server) {
     this.officeController = officeController;
     this.server = server;
-    this.io = new SocketIO(server);
+    this.io = new SocketIO(server, {
+      pingTimeout: 30000
+    });
   }
 
   start() {

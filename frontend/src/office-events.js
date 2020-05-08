@@ -8,9 +8,10 @@ function OfficeEvents(config) {
   const user = JSON.stringify(config.currentUser);
 
   const queryConn = `user=${user}&room=${config.currentRoom}`;
-  
+
   this.socketIO = io.connect(config.domain, {
-    query: queryConn
+    query: queryConn,
+    pingTimeout: 30000
   });
 }
 
@@ -20,6 +21,7 @@ OfficeEvents.prototype.closeConnection = function closeConnection() {
 
 OfficeEvents.prototype.listenEvent = function listenEvent(event, callback) {
   this.socketIO.on(event, data => {
+    console.log('event data', data);
     if (data.user) {
       callback(data.user, data.room);
     } else {
