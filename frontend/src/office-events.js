@@ -9,6 +9,8 @@ function OfficeEvents(config) {
 
   const queryConn = `user=${user}&room=${config.currentRoom}`;
 
+  console.log('connecting', queryConn);
+
   this.socketIO = io.connect(config.domain, {
     query: queryConn,
     pingTimeout: 30000
