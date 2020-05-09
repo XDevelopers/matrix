@@ -11,22 +11,22 @@ function OfficeEvents(config) {
 
   console.log('connecting', queryConn);
 
-  // this.socketIO = io.connect(config.domain, {
-  //   query: queryConn,
-  //   reconnection: false,
-  //   reconnectionDelay: 1000,
-  //   reconnectionDelayMax: 5000,
-  //   reconnectionAttempts: 50000000,
-  //   transports: ["polling", "websocket"],
-  //   secure: true,
-  //   rejectUnauthorized: false,
-  //   forceNew: true,
-  //   timeout: 60000,
-  //   pingTimeout: 60000,
-  // });
   this.socketIO = io.connect(config.domain, {
-      query: queryConn,
+    query: queryConn,
+    forceNew: true,
+    timeout: 60000
+    // reconnectionDelay: 1000,
+    // reconnectionDelayMax: 5000,
+    // reconnection: false,
+    // reconnectionAttempts: 50000000,
+    // transports: ['polling', 'websocket'],
+    // secure: true,
+    // rejectUnauthorized: false,
+    // pingTimeout: 60000
   });
+  // this.socketIO = io.connect(config.domain, {
+  //     query: queryConn,
+  // });
 }
 
 OfficeEvents.prototype.closeConnection = function closeConnection() {

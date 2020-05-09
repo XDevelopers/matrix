@@ -6,19 +6,19 @@ class Office {
   constructor(officeController, server) {
     this.officeController = officeController;
     this.server = server;
-    this.io = new SocketIO(server);
-    // this.io = new SocketIO(server, {
-    //   serveClient: true,
-    //   pingInterval: 10000,
-    //   pingTimeout: 60000,
-    //   upgradeTimeout: 30000,
-    //   agent: false,
-    //   cookie: false,
-    //   rejectUnauthorized: false,
-    //   reconnectionDelay: 1000,
-    //   reconnectionDelayMax: 5000,
-    //   maxHttpBufferSize: 100000000
-    // });
+    // this.io = new SocketIO(server);
+    this.io = new SocketIO(server, {
+      pingInterval: 10000,
+      pingTimeout: 60000,
+      upgradeTimeout: 30000,
+      // serveClient: true,
+      // agent: false,
+      // cookie: false,
+      // rejectUnauthorized: false,
+      // reconnectionDelay: 1000,
+      // reconnectionDelayMax: 5000,
+      // maxHttpBufferSize: 100000000
+    });
   }
 
   start() {
