@@ -3,6 +3,7 @@ import {
   SET_CURRENT_USER,
   SET_CURRENT_ROOM,
   ADD_ROOMS,
+  UPDATE_ROOMS,
   SYNC_OFFICE,
   CHANGE_OFFICE_FILTER,
   CHANGE_USERS_FILTER,
@@ -143,6 +144,20 @@ const buildInMeetState = (state, action, inMeet) => {
   );
 };
 
+const updateRooms = (stateRooms, actionRooms) => {
+  const roomsById = {};
+  stateRooms.forEach(r => roomsById[r.id] = r);
+  actionRooms.forEach(r => {
+    if (r.id in roomsById) {
+      Object.assign(roomsById[r.id], r);
+    } else {
+      stateRooms.push(r);
+    }
+  });
+  console.log('state-rooms', stateRooms);
+  return stateRooms;
+}
+
 const reducers = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_USER:
@@ -159,6 +174,11 @@ const reducers = (state = initialState, action) => {
       return buildOfficeState({
         ...state,
         rooms: action.rooms
+      });
+    case UPDATE_ROOMS:
+      return buildOfficeState({
+        ...state,
+        rooms: updateRooms(state.rooms, action.rooms)
       });
     case CHANGE_OFFICE_FILTER:
       return buildOfficeState({

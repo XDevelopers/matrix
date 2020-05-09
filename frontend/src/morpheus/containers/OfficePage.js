@@ -67,7 +67,6 @@ const OfficePage = ({
 
                 var externalMeetRoomMonitoring = function () {
                   window.setTimeout(function () {
-                    console.log(externalMeetRoom.closed);
                     if (externalMeetRoom.closed) {
                       console.log('The external meeting has been closed');
                       emitLeftMeeting();

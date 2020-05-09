@@ -11,18 +11,21 @@ function OfficeEvents(config) {
 
   console.log('connecting', queryConn);
 
+  // this.socketIO = io.connect(config.domain, {
+  //   query: queryConn,
+  //   reconnection: false,
+  //   reconnectionDelay: 1000,
+  //   reconnectionDelayMax: 5000,
+  //   reconnectionAttempts: 50000000,
+  //   transports: ["polling", "websocket"],
+  //   secure: true,
+  //   rejectUnauthorized: false,
+  //   forceNew: true,
+  //   timeout: 60000,
+  //   pingTimeout: 60000,
+  // });
   this.socketIO = io.connect(config.domain, {
-    query: queryConn,
-    reconnection: false,
-    reconnectionDelay: 1000,
-    reconnectionDelayMax: 5000,
-    reconnectionAttempts: 50000000,
-    transports: ["polling", "websocket"],
-    secure: true,
-    rejectUnauthorized: false,
-    forceNew: true,
-    timeout: 60000,
-    pingTimeout: 60000,
+      query: queryConn,
   });
 }
 
@@ -33,7 +36,7 @@ OfficeEvents.prototype.closeConnection = function closeConnection() {
 OfficeEvents.prototype.listenEvent = function listenEvent(event, callback) {
   this.socketIO.on(event, data => {
     if (event === 'disconnect') {
-      console.log('disconnect', data);
+      console.log('disconnect', data, new Date().getTime());
     }
     if (data.user) {
       callback(data.user, data.room);

@@ -6,18 +6,19 @@ class Office {
   constructor(officeController, server) {
     this.officeController = officeController;
     this.server = server;
-    this.io = new SocketIO(server, {
-      serveClient: true,
-      pingInterval: 10000,
-      pingTimeout: 60000,
-      upgradeTimeout: 30000,
-      agent: false,
-      cookie: false,
-      rejectUnauthorized: false,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
-      maxHttpBufferSize: 100000000
-    });
+    this.io = new SocketIO(server);
+    // this.io = new SocketIO(server, {
+    //   serveClient: true,
+    //   pingInterval: 10000,
+    //   pingTimeout: 60000,
+    //   upgradeTimeout: 30000,
+    //   agent: false,
+    //   cookie: false,
+    //   rejectUnauthorized: false,
+    //   reconnectionDelay: 1000,
+    //   reconnectionDelayMax: 5000,
+    //   maxHttpBufferSize: 100000000
+    // });
   }
 
   start() {
@@ -51,7 +52,7 @@ class Office {
 
       socket.on("disconnect", socket => {
         if (this.canDisconnectUser(currentUser.id)) {
-          console.log("disconect:", currentUser.id, new Date());
+          console.log("disconect:", currentUser.id, new Date().getTime());
           this.io.sockets.emit("disconnect", currentUser.id);
           this.officeController.removeUser(currentUser.id);
         }

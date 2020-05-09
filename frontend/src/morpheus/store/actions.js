@@ -32,6 +32,11 @@ export const addRooms = rooms => ({
   rooms
 });
 
+export const updateRooms = rooms => ({
+  type: UPDATE_ROOMS,
+  rooms
+});
+
 export const syncOffice = usersInRoom => ({
   type: SYNC_OFFICE,
   usersInRoom

@@ -14,18 +14,10 @@ const mapRowToRoom = row => {
         id: row[0],
         name: row[1]
     };
-    if (row[2]) {
-        room.style = row[2]
-    }
-    if (row[3]) {
-        room.blink = row[3].toLowerCase() === 'true'
-    }
-    if (row[4]) {
-        room.disableMeeting = row[4].toLowerCase() === 'true'
-    }
-    if (row[5]) {
-        room.externalMeetUrl = row[5]
-    }
+    room.style = row[2] = row[2] ? row[2] : '';
+    room.blink = row[3] ? row[3].toLowerCase() === 'true' : false;
+    room.disableMeeting = row[4] ? row[4].toLowerCase() === 'true' : false;
+    room.externalMeetUrl = row[5] ? row[5] : '';
     return room;
 }
 
