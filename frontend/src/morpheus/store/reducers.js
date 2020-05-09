@@ -144,7 +144,12 @@ const buildInMeetState = (state, action, inMeet) => {
   );
 };
 
-const updateRooms = (stateRooms, actionRooms) => {
+const updateRoomsInPlace = (stateRooms, actionRooms) => {
+  updateAndInsertRooms(stateRooms, actionRooms);
+  deleteRooms(stateRooms, actionRooms);
+}
+
+const updateAndInsertRooms = (stateRooms, actionRooms) => {
   const roomsById = {};
   stateRooms.forEach(r => roomsById[r.id] = r);
   actionRooms.forEach(r => {
@@ -154,8 +159,19 @@ const updateRooms = (stateRooms, actionRooms) => {
       stateRooms.push(r);
     }
   });
-  console.log('state-rooms', stateRooms);
   return stateRooms;
+}
+
+const deleteRooms = (stateRooms, actionRooms) => {
+  const roomsById = {};
+  actionRooms.forEach(r => roomsById[r.id] = r);
+  for (let i = 0; i < stateRooms.length; i++) {
+    const room = stateRooms[i];
+    if (!(room.id in roomsById)) {
+      stateRooms.splice(i, 1);
+      i--;
+    }
+  }
 }
 
 const reducers = (state = initialState, action) => {
@@ -176,9 +192,9 @@ const reducers = (state = initialState, action) => {
         rooms: action.rooms
       });
     case UPDATE_ROOMS:
+      updateRoomsInPlace(state.rooms, action.rooms);
       return buildOfficeState({
-        ...state,
-        rooms: updateRooms(state.rooms, action.rooms)
+        ...state
       });
     case CHANGE_OFFICE_FILTER:
       return buildOfficeState({
