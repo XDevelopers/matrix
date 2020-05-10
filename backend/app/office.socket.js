@@ -11,13 +11,6 @@ class Office {
       pingInterval: 10000,
       pingTimeout: 60000,
       upgradeTimeout: 30000,
-      // serveClient: true,
-      // agent: false,
-      // cookie: false,
-      // rejectUnauthorized: false,
-      // reconnectionDelay: 1000,
-      // reconnectionDelayMax: 5000,
-      // maxHttpBufferSize: 100000000
     });
   }
 
@@ -62,6 +55,10 @@ class Office {
         this.addUserInRoom(currentUser, data.room);
       });
 
+      socket.on("close-room", data => {
+        this.closeRoom(currentUser, data.room);
+      });
+
       socket.on("start-meet", userId => {
         this.updateUserMeetInformation(userId, "start-meet", true);
       });
@@ -93,6 +90,11 @@ class Office {
     const userInRoom = this.officeController.getUserInRoom(user.id);
 
     this.io.sockets.emit("enter-room", userInRoom);
+  }
+
+  closeRoom(user, room) {
+    console.log('here');
+    // this.io.sockets.emit("enter-room", userInRoom);
   }
 
   updateRooms(rooms) {

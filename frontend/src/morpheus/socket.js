@@ -71,6 +71,10 @@ export const emitEnterInRoom = roomId => {
   saveCurrentUserRoom(roomId);
 };
 
+export const emitCloseRoom = roomId => {
+    events.closeRoom(roomId);
+};
+
 export const emitStartMeeting = () => {
   events.startMeet();
 };

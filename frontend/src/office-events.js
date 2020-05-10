@@ -43,6 +43,10 @@ OfficeEvents.prototype.enterInRoom = function enterInRoom(roomId) {
   this.emitEvent("enter-room", { room: roomId, user: this.config.currentUser });
 };
 
+OfficeEvents.prototype.closeRoom = function closeRoom(roomId) {
+  this.emitEvent("close-room", { room: roomId, user: this.config.currentUser });
+};
+
 OfficeEvents.prototype.startMeet = function startMeet() {
   this.emitEvent("start-meet", this.config.currentUser.id);
 };
