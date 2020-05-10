@@ -99,7 +99,7 @@ const parseStyle = (styleStr) => {
   try {
     const defaults = {
       backgroundSize: 'cover',
-      backgroundBlendMode: 'hard-light'
+      backgroundBlendMode: 'normal'
     }
     if (styleStr.startsWith('#')) {
       return Object.assign({}, defaults, { backgroundColor: styleStr });
