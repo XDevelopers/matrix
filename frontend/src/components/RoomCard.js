@@ -16,13 +16,31 @@ const OPEN_ROOM_MILLIS = 30 * 60 * 1000;
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    position: "relative",
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    color: '#DDD',
+    fontWeight: 'bold'
+  },
+  name: {
+    textShadow: ' 3px 3px 6px #000'
+  },
+  background: {
+    position: 'absolute',
+    zIndex: -1,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    // opacity: .4,
+    width: '100%',
+    height: '100%'
   },
   contentAction: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    alignItems: "stretch"
+    alignItems: "stretch",     
   },
   content: {
     flex: 1
@@ -49,6 +67,11 @@ const useStyles = makeStyles(() => ({
       backgroundRepeat: "no-repeat"
     }
   },
+  actionButton: {
+    color: '#BBB',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
   '@keyframes blinker': {
     from: { opacity: 1 },
     to: { opacity: 0 }
@@ -64,8 +87,8 @@ const useStyles = makeStyles(() => ({
     // fontFamily: "'Courier New', Courier, monospace",
     padding: 10,
     paddingLeft: 16,
-    margin: 4, 
-    backgroundColor: 'rgba(0, 0, 0, .7)',
+    margin: 4,
+    backgroundColor: 'rgba(0, 0, 0, .3)',
   }
 }));
 
@@ -89,66 +112,6 @@ const parseStyle = (styleStr) => {
     console.log('invalid style', styleStr, err);
     return {};
   }
-}
-
-const cardNameColor = (style) => {
-  try {
-    const color = style.backgroundColor;
-    if (!color) {
-      return undefined;
-    }
-    return invertColor(color, true);
-  } catch (err) {
-    console.log('error parsing color', err);
-    return "#FFF";
-  }
-}
-
-const cardButtonColor = (style) => {
-  try {
-    const color = style.backgroundColor;
-    if (!color) {
-      return undefined;
-    }
-    return invertColor(color, true);
-  } catch (err) {
-    console.log('error parsing color', err);
-    return "#FFF";
-  }
-}
-
-const padZero = (str, len) => {
-  len = len || 2;
-  var zeros = new Array(len).join('0');
-  return (zeros + str).slice(-len);
-}
-
-const invertColor = (hex, bw) => {
-  if (hex.indexOf('#') === 0) {
-    hex = hex.slice(1);
-  }
-  // convert 3-digit hex to 6-digits.
-  if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
-  if (hex.length !== 6) {
-    throw new Error('Invalid HEX color.');
-  }
-  var r = parseInt(hex.slice(0, 2), 16),
-    g = parseInt(hex.slice(2, 4), 16),
-    b = parseInt(hex.slice(4, 6), 16);
-  if (bw) {
-    // http://stackoverflow.com/a/3943023/112731
-    return (r * 0.299 + g * 0.587 + b * 0.114) > 186
-      ? '#000000'
-      : '#FFFFFF';
-  }
-  // invert color components
-  r = (255 - r).toString(16);
-  g = (255 - g).toString(16);
-  b = (255 - b).toString(16);
-  // pad each with zeros and return
-  return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
 const calculateTimeLeftMillis = (start) => +Date.parse(start) - +new Date();
@@ -200,11 +163,11 @@ const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, 
   const RoomActions = () => {
     return (
       <CardActions>
-        <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterRoom}>
-          Enter room
+        <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
+          Enter
         </Button>
         {meetingEnabled && (
-          <Button size="small" style={{ color: cardButtonColor(style) }} onClick={onEnterMeeting}>
+          <Button size="small" className={classes.actionButton} onClick={onEnterMeeting}>
             Join meeting
           </Button>
         )}
@@ -229,7 +192,8 @@ const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, 
   const isOpenCalendar = start && calculateTimeLeftMillis(start) < OPEN_ROOM_MILLIS;
 
   return (
-    <Card className={classes.root} style={style}>
+    <Card className={classes.root}>
+      <section className={classes.background} style={style}></section>
       <CardActionArea
         className={classes.contentAction}
         onClick={() => {
@@ -237,8 +201,8 @@ const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, 
         }}
       >
         <CardContent className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2" className={blink || isOpenCalendar ? classes.blinker : undefined} style={{ color: cardNameColor(style) }}>
-            {name}
+          <Typography gutterBottom variant="h5" component="h2" className={blink || isOpenCalendar ? classes.blinker : undefined}>
+            <div className={classes.name}>{name}</div>
           </Typography>
           <div className={classes.userGrid}>
             {userToShow.map(user => (
