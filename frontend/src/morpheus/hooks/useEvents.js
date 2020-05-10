@@ -47,7 +47,7 @@ const useEvents = (
         onAddUser(user, roomId);
         if (currentUser.id !== user.id && currentRoom.id === roomId) {
           const room = rooms.find(r => r.id === roomId);
-          showNotification(`${user.name} entered ${room.name}.`);
+          // showNotification(`${user.name} entered ${room.name}.`);
         }
       });
       events.onParticipantStartedMeet((user, roomId) => {
