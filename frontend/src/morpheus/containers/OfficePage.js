@@ -22,29 +22,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const joinMeetingForRoom = (currentUser, room) => {
-  if (room.externalMeetUrl) {
-    emitStartMeeting();
-    const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
-    var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
+const joinExternalMeetingForRoom = (currentUser, room) => {
+  emitStartMeeting();
+  const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
+  var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
 
-    var externalMeetRoomMonitoring = function () {
-      window.setTimeout(function () {
-        if (externalMeetRoom.closed) {
-          console.log('The external meeting has been closed');
-          emitLeftMeeting();
-        } else {
-          externalMeetRoomMonitoring();
-        }
+  var externalMeetRoomMonitoring = function () {
+    window.setTimeout(function () {
+      if (externalMeetRoom.closed) {
+        console.log('The external meeting has been closed');
+        emitLeftMeeting();
+      } else {
+        externalMeetRoomMonitoring();
+      }
 
-      }, 1000);
-    }
-
-    externalMeetRoomMonitoring();
-
-  } else {
-    history.push(`/morpheus/room/${room.id}`);
+    }, 1000);
   }
+  externalMeetRoomMonitoring();
 }
 
 const OfficePage = ({
@@ -87,7 +81,11 @@ const OfficePage = ({
             onEnterMeeting={() => {
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);
-              joinMeetingForRoom(currentUser, room);
+              if (room.externalMeetUrl) {
+                joinExternalMeetingForRoom(currentUser, room);
+              } else {
+                history.push(`/morpheus/room/${room.id}`);
+              }
             }}
           />
         ))}
@@ -137,3 +135,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(OfficePage);
+
+export { joinExternalMeetingForRoom };

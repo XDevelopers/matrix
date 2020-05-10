@@ -13,6 +13,7 @@ import MessageDialog from "../components/MessageDialog";
 import Error500 from "../components/Error500";
 import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
+import { joinExternalMeetingForRoom } from "./containers/OfficePage";
 
 import { emitEnterInRoom, emitInviteUser } from "./socket";
 import {
@@ -156,7 +157,12 @@ const MorpheusApp = ({
         }}
         onConfirm={() => {
           emitEnterInRoom(invitation.room.id);
-          history.push(`/morpheus/office/${invitation.room.id}`);
+          if (invitation.room.externalMeetUrl) {
+            history.push(`/morpheus/office/${invitation.room.id}`);
+            joinExternalMeetingForRoom(currentUser, invitation.room);
+          } else {
+            history.push(`/morpheus/room/${invitation.room.id}`);
+          }
         }}
       />
       <MessageDialog />
@@ -190,17 +196,17 @@ MorpheusApp.propTypes = {
 };
 
 MorpheusApp.defaultProps = {
-  onChangeUsersFilter: () => {},
-  onSetCurrentUser: () => {},
-  onSetCurrentRoom: () => {},
-  onAddRooms: () => {},
-  onUpdateRooms: () => {},
-  onSyncOffice: () => {},
-  onAddUser: () => {},
-  onAddError: () => {},
-  onRemoveUser: () => {},
-  onUserEnterMeeting: () => {},
-  onUserLeftMeeting: () => {},
+  onChangeUsersFilter: () => { },
+  onSetCurrentUser: () => { },
+  onSetCurrentRoom: () => { },
+  onAddRooms: () => { },
+  onUpdateRooms: () => { },
+  onSyncOffice: () => { },
+  onAddUser: () => { },
+  onAddError: () => { },
+  onRemoveUser: () => { },
+  onUserEnterMeeting: () => { },
+  onUserLeftMeeting: () => { },
   error: undefined
 };
 
