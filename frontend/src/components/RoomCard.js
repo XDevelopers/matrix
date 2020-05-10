@@ -45,11 +45,6 @@ const useStyles = makeStyles(() => ({
   content: {
     flex: 1
   },
-  avatar: {
-    "&:hover": {
-      transform: "scale(1.7)"
-    }
-  },
   userGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, 40px)",
@@ -58,8 +53,16 @@ const useStyles = makeStyles(() => ({
   emptyUserSpace: {
     height: 0
   },
+  avatar: {
+    "&:hover": {
+      transform: "scale(1.7)"
+    }
+  },  
   avatarInMeeting: {
     position: "relative",
+    "&:hover": {
+      transform: "scale(1.7)"
+    },    
     "&:after": {
       content: "''",
       position: "absolute",
