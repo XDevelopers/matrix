@@ -187,6 +187,23 @@ const RoomCard = (
 
   const RoomActions = () => {
     return (
+      <CardActions>       
+        {!insideRoom && (
+          <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
+            Enter
+          </Button>
+        )}
+        {meetingEnabled && (
+          <Button size="small" className={classes.actionButton} onClick={onEnterMeeting}>
+            Join meeting
+          </Button>
+        )}
+      </CardActions>
+    )
+  }
+
+  const RoomActions2 = () => {
+    return (
       <CardActions>
         {insideRoom && !closed && (
           <Button size="small" className={classes.actionButton} onClick={onCloseRoom}>
