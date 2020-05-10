@@ -52,6 +52,14 @@ router.get(
         return res.redirect(`/?error=${encodeURIComponent(message)}`);
       }
 
+      if (req.headers.cookie.indexOf('mock-matrix') != -1 &&
+        req.headers.host.indexOf('localhost') != -1) {
+        console.log('mocking...');
+        profile.id = '12345';
+        profile.name = 'Mr Mock';
+        profile.email = 'mock@dextra-sw.com';
+      }
+
       req.session.currentUser = profile;
 
       return res.redirect("/morpheus");

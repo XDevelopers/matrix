@@ -119,7 +119,9 @@ const closeRoom = (roomId) => {
 
 const openRoom = (roomId) => {
   const room = rooms.filter(r => r.id === roomId)[0];
-  room.closed = false;
+  if (room) {
+    room.closed = false;
+  }
 }
 
 const getRooms = () => rooms;
