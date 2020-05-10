@@ -79,10 +79,22 @@ const fetchRooms = (strategy) => {
   }
 };
 
+const applyTemporaryFields = (newRooms) => {
+  const tempFields = ['closed'];
+  const roomsById = {};
+  newRooms.forEach(r => roomsById[r.id] = r);
+  rooms.forEach(r => {
+    if (r.id in roomsById) {
+      tempFields.forEach(f => roomsById[r.id][f] = r[f]);
+    }
+  });
+}
+
 const reloadRoomsListener = (strategy, cb) => {
   const loadRooms = () => {
     fetchRooms(strategy)
       .then((newRooms) => {
+        applyTemporaryFields(newRooms);
         if (JSON.stringify(rooms) !== JSON.stringify(newRooms)) {
           console.log(newRooms);
           rooms = newRooms;
@@ -100,6 +112,11 @@ const reloadRoomsListener = (strategy, cb) => {
   }
 };
 
+const closeRoom = (roomId) => {
+  const room = rooms.filter(r => r.id === roomId)[0];
+  room.closed = true;
+}
+
 const getRooms = () => rooms;
 
-export { getRooms, reloadRoomsListener };
+export { getRooms, reloadRoomsListener, closeRoom };

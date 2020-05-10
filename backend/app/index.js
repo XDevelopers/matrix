@@ -10,6 +10,7 @@ const server = app.listen(PORT, HOST, undefined, () => {
 const office = officeFactory(server);
 office.start();
 
+
 healthCheck(server, office.roomsController.getRooms);
 
 module.exports = server;

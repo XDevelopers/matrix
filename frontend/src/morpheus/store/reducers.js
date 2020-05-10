@@ -72,6 +72,7 @@ const buildOfficeState = state => {
     start: room.start,
     end: room.end,
     top: room.top,
+    closed: room.closed,
     users: usersInRoom.filter(u => u.room === room.id).map(u => u.user)
   }));
 

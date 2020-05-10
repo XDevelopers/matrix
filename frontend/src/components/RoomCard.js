@@ -163,7 +163,7 @@ const countdownText = (timeLeft) => {
   return c('seconds')
 }
 
-const RoomCard = ({ name, style: styleStr, blink, start, users, currentUser, meetingEnabled, onEnterRoom, onCloseRoom, onEnterMeeting }) => {
+const RoomCard = ({ name, style: styleStr, blink, start, users, currentUser, closed, meetingEnabled, onEnterRoom, onCloseRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
   const userToShow = isExpanded ? users : users.slice(0, 3);
@@ -175,6 +175,9 @@ const RoomCard = ({ name, style: styleStr, blink, start, users, currentUser, mee
   const RoomActions = () => {
     return (
       <CardActions>
+        {closed && (
+          <div>fechado :)</div>
+        )}
         {!insideRoom && (
           <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
             Enter

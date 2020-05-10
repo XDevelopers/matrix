@@ -17,6 +17,8 @@ class Office {
   }
 
   start() {
+    this.roomsController.reloadRoomsListener(ROOMS_SOURCE, () => this.updateRooms());
+
     this.io.use((socket, next) => {
       const serializedUser = socket.handshake.query.user;
 
@@ -77,8 +79,6 @@ class Office {
             .emit("get-user-to-room", { user: currentUser, room: data.room });
         }
       });
-
-      this.roomsController.reloadRoomsListener(ROOMS_SOURCE, rooms => this.updateRooms(rooms));
     });
   }
 
@@ -97,12 +97,12 @@ class Office {
   }
 
   closeRoom(user, room) {
-    console.log('here');
-    // this.io.sockets.emit("enter-room", userInRoom);
+    this.roomsController.closeRoom(room);
+    this.updateRooms();
   }
 
-  updateRooms(rooms) {
-    this.io.sockets.emit("update-rooms", rooms);
+  updateRooms() {
+    this.io.sockets.emit("update-rooms", this.roomsController.getRooms());
   }
 
   canDisconnectUser(userId) {
