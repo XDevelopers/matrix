@@ -23,7 +23,8 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold'
   },
   name: {
-    textShadow: ' 3px 3px 6px #000'
+    textShadow: ' 3px 3px 6px #000',
+    marginTop: -5
   },
   background: {
     position: 'absolute',
