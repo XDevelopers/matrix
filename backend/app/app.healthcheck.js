@@ -1,18 +1,16 @@
 import { createTerminus, HealthCheckError } from "@godaddy/terminus";
-import { getRooms } from "./controllers/rooms.controller";
 
-function onHealthCheck(app) {
-  const rooms = getRooms();
+function onHealthCheck(rooms) {
   if (rooms.length > 0) {
     return Promise.resolve();
   }
   throw new HealthCheckError();
 }
 
-module.exports = (server, app) => {
+module.exports = (server, getRooms) => {
   createTerminus(server, {
     healthChecks: {
-      '/healthz': () => onHealthCheck(app),
+      '/healthz': () => onHealthCheck(getRooms()),
       verbatim: true
     }
   });

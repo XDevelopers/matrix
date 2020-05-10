@@ -1,10 +1,12 @@
 import SocketIO from "socket.io";
+import { ROOMS_SOURCE } from "./app.config";
 
 const DEFAULT_ROOM = "room-1";
 // Constructor
 class Office {
-  constructor(officeController, server) {
+  constructor(officeController, roomsController, server) {
     this.officeController = officeController;
+    this.roomsController = roomsController;
     this.server = server;
     // this.io = new SocketIO(server);
     this.io = new SocketIO(server, {
@@ -75,6 +77,8 @@ class Office {
             .emit("get-user-to-room", { user: currentUser, room: data.room });
         }
       });
+
+      this.roomsController.reloadRoomsListener(ROOMS_SOURCE, rooms => this.updateRooms(rooms));
     });
   }
 
