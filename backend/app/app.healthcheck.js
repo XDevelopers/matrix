@@ -1,15 +1,16 @@
-import { createTerminus } from "@godaddy/terminus";
+import { createTerminus, HealthCheckError } from "@godaddy/terminus";
 
-function onHealthCheck() {
-    // checks if the system is healthy,
-    // we can add the checks here as needed
+function onHealthCheck(app) {
+  if (app.locals.roomsDetail && app.locals.roomsDetail.length) {
     return Promise.resolve();
+  }
+  throw new HealthCheckError();
 }
 
-module.exports = (server) => {
+module.exports = (server, app) => {
   createTerminus(server, {
     healthChecks: {
-      '/healthz': onHealthCheck,
+      '/healthz': () => onHealthCheck(app),
       verbatim: true
     }
   });

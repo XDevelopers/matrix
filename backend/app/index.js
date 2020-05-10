@@ -7,7 +7,7 @@ const server = app.listen(PORT, HOST, undefined, () => {
   console.log(`Running on http://${HOST}:${PORT}`);
 });
 
-healthCheck(server);
+healthCheck(server, app);
 
 const office = officeFactory(server);
 office.start();
