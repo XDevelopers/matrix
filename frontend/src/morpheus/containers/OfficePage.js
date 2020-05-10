@@ -12,7 +12,7 @@ import {
   selectRooms,
   selectCurrentUser
 } from "../store/selectors";
-import { emitEnterInRoom, emitCloseRoom, emitStartMeeting, emitLeftMeeting } from "../socket";
+import { emitEnterInRoom, emitCloseRoom, emitOpenRoom, emitStartMeeting, emitLeftMeeting } from "../socket";
 import { setCurrentRoom } from "../store/actions";
 import { CurrentRoomPropType, CurrentUserPropType } from "../store/models";
 
@@ -58,6 +58,7 @@ const OfficePage = ({
               history.replace(`/morpheus/office/${room.id}`);
             }}
             onCloseRoom={() => emitCloseRoom(room.id)}
+            onOpenRoom={() => emitOpenRoom(room.id)}
             onEnterMeeting={() => {
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);

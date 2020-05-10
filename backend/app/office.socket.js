@@ -63,6 +63,10 @@ class Office {
         this.closeRoom(currentUser, data.room);
       });
 
+      socket.on("open-room", data => {
+        this.openRoom(currentUser, data.room);
+      });
+
       socket.on("start-meet", userId => {
         this.updateUserMeetInformation(userId, "start-meet", true);
       });
@@ -98,6 +102,11 @@ class Office {
 
   closeRoom(user, room) {
     this.roomsController.closeRoom(room);
+    this.updateRooms();
+  }
+
+  openRoom(user, room) {
+    this.roomsController.openRoom(room);
     this.updateRooms();
   }
 

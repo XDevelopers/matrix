@@ -75,6 +75,10 @@ export const emitCloseRoom = roomId => {
     events.closeRoom(roomId);
 };
 
+export const emitOpenRoom = roomId => {
+  events.openRoom(roomId);
+};
+
 export const emitStartMeeting = () => {
   events.startMeet();
 };

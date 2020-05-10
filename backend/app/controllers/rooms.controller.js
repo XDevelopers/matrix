@@ -117,6 +117,11 @@ const closeRoom = (roomId) => {
   room.closed = true;
 }
 
+const openRoom = (roomId) => {
+  const room = rooms.filter(r => r.id === roomId)[0];
+  room.closed = false;
+}
+
 const getRooms = () => rooms;
 
-export { getRooms, reloadRoomsListener, closeRoom };
+export { getRooms, reloadRoomsListener, closeRoom, openRoom };
