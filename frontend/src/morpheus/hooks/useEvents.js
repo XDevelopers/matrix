@@ -72,6 +72,7 @@ const useEvents = (
     }
 
     return () => {
+      console.log('return of useEffect');
       closeConnection();
     };
   }, [
