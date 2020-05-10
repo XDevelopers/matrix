@@ -94,7 +94,7 @@ class Office {
   }
 
   addUserInRoom(user, room) {
-    this.openRoomIfEmpty(user, room);
+    // this.openRoomIfEmpty(user, room);
 
     this.officeController.addUserInRoom(user, room);
     const userInRoom = this.officeController.getUserInRoom(user.id);

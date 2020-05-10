@@ -54,7 +54,7 @@ const OfficePage = ({
             currentUser={currentUser}
             onEnterRoom={() => {
               emitEnterInRoom(room.id);
-              onSetCurrentRoom(room);
+              // onSetCurrentRoom(room);
               history.replace(`/morpheus/office/${room.id}`);
             }}
             onCloseRoom={() => emitCloseRoom(room.id)}
