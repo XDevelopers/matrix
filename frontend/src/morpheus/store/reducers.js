@@ -57,6 +57,20 @@ export const initialState = {
   }
 };
 
+const sortOffice = (office) => {
+  office.sort((r1, r2) => {
+    if (r1.top && r2.top) {
+      return r1.index - r2.index;
+    }
+    if (r1.top) {
+      return -1;
+    }
+    if (r2.top) {
+      return 1;
+    }
+    return r2.users.length - r1.users.length
+  });
+}
 
 const buildOfficeState = state => {
   const { rooms, usersInRoom, officeFilter } = state;
@@ -76,18 +90,7 @@ const buildOfficeState = state => {
     users: usersInRoom.filter(u => u.room === room.id).map(u => u.user)
   }));
 
-  office.sort((r1, r2) => {
-    if (r1.top && r2.top) {
-      return r1.index - r2.index;
-    }
-    if (r1.top) {
-      return -1;
-    }
-    if (r2.top) {
-      return 1;
-    }
-    return r2.users.length - r1.users.length
-  });
+  // sortOffice(office);
 
   if (officeFilter.onlyFullRoom) {
     office = office.filter(o => o.users.length > 0);
