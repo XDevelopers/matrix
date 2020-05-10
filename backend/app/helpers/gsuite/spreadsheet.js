@@ -18,6 +18,7 @@ const mapRowToRoom = row => {
     room.blink = row[3] ? row[3].toLowerCase() === 'true' : false;
     room.disableMeeting = row[4] ? row[4].toLowerCase() === 'true' : false;
     room.externalMeetUrl = row[5] ? row[5] : '';
+    room.top = row[6] ? row[6].toLowerCase() === 'true' : false;
     return room;
 }
 
@@ -27,7 +28,7 @@ const listRooms = (spreadsheetId) => {
         return new Promise((resolve, reject) => {
             sheets.spreadsheets.values.get({
                 spreadsheetId: spreadsheetId,
-                range: 'rooms!A2:F',
+                range: 'rooms!A2:G',
             }, (err, res) => {
                 if (err) {
                     reject('The API returned an error: ' + err);

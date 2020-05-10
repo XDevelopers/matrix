@@ -57,10 +57,12 @@ export const initialState = {
   }
 };
 
+
 const buildOfficeState = state => {
   const { rooms, usersInRoom, officeFilter } = state;
 
-  let office = rooms.map(room => ({
+  let office = rooms.map((room, index) => ({
+    index: index,
     id: room.id,
     name: room.name,
     style: room.style,
@@ -69,8 +71,22 @@ const buildOfficeState = state => {
     externalMeetUrl: room.externalMeetUrl,
     start: room.start,
     end: room.end,
+    top: room.top,
     users: usersInRoom.filter(u => u.room === room.id).map(u => u.user)
   }));
+
+  office.sort((r1, r2) => {
+    if (r1.top && r2.top) {
+      return r1.index - r2.index;
+    }
+    if (r1.top) {
+      return -1;
+    }
+    if (r2.top) {
+      return 1;
+    }
+    return r2.users.length - r1.users.length
+  });
 
   if (officeFilter.onlyFullRoom) {
     office = office.filter(o => o.users.length > 0);
