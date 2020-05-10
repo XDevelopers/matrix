@@ -94,10 +94,22 @@ class Office {
   }
 
   addUserInRoom(user, room) {
+    this.openRoomIfEmpty(user, room);
+
     this.officeController.addUserInRoom(user, room);
     const userInRoom = this.officeController.getUserInRoom(user.id);
 
     this.io.sockets.emit("enter-room", userInRoom);
+  }
+
+  openRoomIfEmpty(user, room) {
+    const previous = this.officeController.getUserInRoom(user.id);
+    if (previous && previous.room !== room) {
+      const users = this.officeController.getUsersByRoom(previous.room);
+      if (users.length === 1 && users[0] === user.id) {
+        this.openRoom(user, previous.room)
+      }
+    }
   }
 
   closeRoom(user, room) {

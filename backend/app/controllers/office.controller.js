@@ -48,6 +48,17 @@ class OfficeController {
 
     return usersInOffice;
   }
+
+  getUsersByRoom(searchRoomId) {
+    const users = [];
+    this.getUsersInOffice().forEach((value, key) => {
+      if (value.room === searchRoomId) {
+        users.push(key);
+      }
+    });
+    return users;
+  }
+
 }
 
 export default OfficeController;

@@ -96,7 +96,7 @@ const reloadRoomsListener = (strategy, cb) => {
       .then((newRooms) => {
         applyTemporaryFields(newRooms);
         if (JSON.stringify(rooms) !== JSON.stringify(newRooms)) {
-          console.log(newRooms);
+          console.log('reloading rooms...');
           rooms = newRooms;
           cb(rooms);
         }
