@@ -156,7 +156,7 @@ const MorpheusApp = ({
         }}
         onConfirm={() => {
           emitEnterInRoom(invitation.room.id);
-          history.push(`/morpheus/room/${invitation.room.id}`);
+          history.push(`/morpheus/office/${invitation.room.id}`);
         }}
       />
       <MessageDialog />

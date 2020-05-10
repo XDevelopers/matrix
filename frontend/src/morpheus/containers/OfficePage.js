@@ -22,6 +22,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const joinMeetingForRoom = (currentUser, room) => {
+  if (room.externalMeetUrl) {
+    emitStartMeeting();
+    const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
+    var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
+
+    var externalMeetRoomMonitoring = function () {
+      window.setTimeout(function () {
+        if (externalMeetRoom.closed) {
+          console.log('The external meeting has been closed');
+          emitLeftMeeting();
+        } else {
+          externalMeetRoomMonitoring();
+        }
+
+      }, 1000);
+    }
+
+    externalMeetRoomMonitoring();
+
+  } else {
+    history.push(`/morpheus/room/${room.id}`);
+  }
+}
+
 const OfficePage = ({
   onSetCurrentRoom,
   history,
@@ -62,30 +87,7 @@ const OfficePage = ({
             onEnterMeeting={() => {
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);
-              console.log(room.externalMeetUrl);
-              if (room.externalMeetUrl) {
-                console.log('currentUser', currentUser)
-                emitStartMeeting();
-                const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
-                var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
-
-                var externalMeetRoomMonitoring = function () {
-                  window.setTimeout(function () {
-                    if (externalMeetRoom.closed) {
-                      console.log('The external meeting has been closed');
-                      emitLeftMeeting();
-                    } else {
-                      externalMeetRoomMonitoring();
-                    }
-
-                  }, 1000);
-                }
-
-                externalMeetRoomMonitoring();
-
-              } else {
-                history.push(`/morpheus/room/${room.id}`);
-              }
+              joinMeetingForRoom(currentUser, room);
             }}
           />
         ))}
