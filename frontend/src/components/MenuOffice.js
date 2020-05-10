@@ -26,6 +26,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
       width: "auto"
+    },
+    ['@media (max-width:900px)']: {
+      display: 'none'
     }
   },
   searchIcon: {
@@ -49,6 +52,11 @@ const useStyles = makeStyles(theme => ({
       "&:focus": {
         width: 200
       }
+    }
+  },
+  manageRoom: {
+    ['@media (max-width:450px)']: {
+      display: 'none'
     }
   }
 }));
@@ -81,7 +89,9 @@ const MenuOffice = ({
           }}
         />
       </div>
-      <ManageRoomsButton />
+      <div className={classes.manageRoom}>
+        <ManageRoomsButton />
+      </div>
       <Tooltip title="Show only full room">
         <Checkbox
           icon={<SupervisedUserCircle />}

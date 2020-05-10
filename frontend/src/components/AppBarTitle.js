@@ -16,7 +16,10 @@ const useStyles = makeStyles(() => ({
     display: 'inline',
     padding: 0,
     margin: 0,
-    verticalAlign: 'top'
+    verticalAlign: 'top',
+    ['@media (max-width:670px)']: {
+      display: 'none'
+    }
   },
   logo: {
     width: 120,
