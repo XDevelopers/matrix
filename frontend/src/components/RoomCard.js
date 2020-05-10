@@ -60,12 +60,12 @@ const useStyles = makeStyles(() => ({
     },
     border: '1px solid #444',
     filter: 'drop-shadow(3px 3px 2px #000)',
-  },  
+  },
   avatarInMeeting: {
     position: "relative",
     "&:hover": {
       transform: "scale(1.7)"
-    },    
+    },
     "&:after": {
       content: "''",
       position: "absolute",
@@ -163,20 +163,23 @@ const countdownText = (timeLeft) => {
   return c('seconds')
 }
 
-const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
+const RoomCard = ({ name, style: styleStr, blink, start, users, currentUser, meetingEnabled, onEnterRoom, onEnterMeeting }) => {
   const [isExpanded, toggleExpand] = useState(false);
   const classes = useStyles();
   const userToShow = isExpanded ? users : users.slice(0, 3);
   const totalUsersHidden = users.length - userToShow.length;
 
   const style = parseStyle(styleStr);
+  const insideRoom = users.filter(u => u.id === currentUser.id).length > 0;
 
   const RoomActions = () => {
     return (
       <CardActions>
-        <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
-          Enter
-        </Button>
+        {!insideRoom && (
+          <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
+            Enter
+          </Button>
+        )}
         {meetingEnabled && (
           <Button size="small" className={classes.actionButton} onClick={onEnterMeeting}>
             Join meeting

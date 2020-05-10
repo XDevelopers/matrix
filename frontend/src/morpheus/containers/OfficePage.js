@@ -51,6 +51,7 @@ const OfficePage = ({
           <RoomCard
             {...room}
             key={room.id}
+            currentUser={currentUser}
             onEnterRoom={() => {
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);
@@ -61,6 +62,7 @@ const OfficePage = ({
               onSetCurrentRoom(room);
               console.log(room.externalMeetUrl);
               if (room.externalMeetUrl) {
+                console.log('currentUser', currentUser)
                 emitStartMeeting();
                 const urlAppend = (room.externalMeetUrl.indexOf('?') != -1 ? '&' : '?') + 'authuser=' + currentUser.email;
                 var externalMeetRoom = window.open(room.externalMeetUrl + urlAppend);
