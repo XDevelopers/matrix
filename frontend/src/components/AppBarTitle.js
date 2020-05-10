@@ -8,17 +8,22 @@ const LOGO = "https://storage.googleapis.com/dexmatrix-public/images/logo-dextra
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-    paddingTop: 4,
-    display: 'inline-flex'
+    paddingTop: 6,
+    display: 'inline'
   },
   title: {
-    filter: 'drop-shadow(5px 5px 2px #222)'
+    filter: 'drop-shadow(5px 5px 2px #222)',
+    display: 'inline',
+    padding: 0,
+    margin: 0,
+    verticalAlign: 'top'
   },
   logo: {
     width: 120,
-    marginTop: -2,
+    // marginTop: -2,
     marginRight: 16,
-    filter: 'drop-shadow(5px 5px 2px #222)'
+    filter: 'drop-shadow(5px 5px 2px #222)',
+    display: 'inline'
   }
 }));
 
