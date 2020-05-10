@@ -102,5 +102,4 @@ const reloadRoomsListener = (strategy, cb) => {
 
 const getRooms = () => rooms;
 
-export default fetchRooms;
 export { getRooms, reloadRoomsListener };
