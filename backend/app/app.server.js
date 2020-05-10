@@ -3,12 +3,10 @@ import cookieSession from "cookie-session";
 import bodyParser from "body-parser";
 import path from "path";
 import GoogleCredentialController from "./controllers/google.credentials.controller";
-import fetchRooms from "./controllers/rooms.controller";
 import assets from "./controllers/assets.controller";
 import routes from "./app.routes";
 import auth from "./app.auth";
 import {
-  ROOMS_SOURCE,
   ENVIRONMENT,
   GOOGLE_CREDENTIAL,
   ENFORCE_SSL,
@@ -70,26 +68,4 @@ app.use((req, res, next) => {
 
 app.use(routes);
 
-const reloadRoomsListener = (emiter) => {
-  const loadRooms = () => {
-    const previousRooms = app.locals.roomsDetail;
-    fetchRooms(ROOMS_SOURCE)
-      .then((roomsData) => {
-        if (!previousRooms || JSON.stringify(previousRooms) !== JSON.stringify(roomsData)) {
-          console.log(roomsData);
-          app.locals.roomsDetail = roomsData;
-          emiter(roomsData);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
-  loadRooms();
-
-  if (ROOMS_SOURCE === "GSUITE") {
-    setInterval(loadRooms, 10000);
-  }
-};
-
-module.exports = { app, reloadRoomsListener };
+module.exports = app;

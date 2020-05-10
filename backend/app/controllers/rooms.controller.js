@@ -6,6 +6,8 @@ import calendar from '../helpers/gsuite/calendar';
 
 const roomFilePath = "../file/matrix.room.web.json";
 
+let rooms = [];
+
 const fetchFromFile = () => {
   const roomFileExists = fs.existsSync(roomFilePath);
   if (!roomFileExists) {
@@ -77,4 +79,28 @@ const fetchRooms = (strategy) => {
   }
 };
 
+const reloadRoomsListener = (strategy, cb) => {
+  const loadRooms = () => {
+    fetchRooms(strategy)
+      .then((newRooms) => {
+        if (JSON.stringify(rooms) !== JSON.stringify(newRooms)) {
+          console.log(newRooms);
+          rooms = newRooms;
+          cb(rooms);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  loadRooms();
+
+  if (strategy === "GSUITE") {
+    setInterval(loadRooms, 10000);
+  }
+};
+
+const getRooms = () => rooms;
+
 export default fetchRooms;
+export { getRooms, reloadRoomsListener };

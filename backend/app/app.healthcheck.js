@@ -1,7 +1,9 @@
 import { createTerminus, HealthCheckError } from "@godaddy/terminus";
+import { getRooms } from "./controllers/rooms.controller";
 
 function onHealthCheck(app) {
-  if (app.locals.roomsDetail && app.locals.roomsDetail.length) {
+  const rooms = getRooms();
+  if (rooms.length > 0) {
     return Promise.resolve();
   }
   throw new HealthCheckError();
