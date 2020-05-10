@@ -40,10 +40,15 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    alignItems: "stretch",     
+    alignItems: "stretch",
   },
   content: {
     flex: 1
+  },
+  avatar: {
+    "&:hover": {
+      transform: "scale(1.7)"
+    }
   },
   userGrid: {
     display: "grid",
@@ -212,7 +217,7 @@ const RoomCard = ({ name, style: styleStr, blink, start, users, meetingEnabled, 
                     [classes.avatarInMeeting]: user.inMeet
                   })}
                 >
-                  <Avatar src={decodeURIComponent(user.imageUrl)} />
+                  <Avatar className={classes.avatar} src={decodeURIComponent(user.imageUrl)} />
                 </div>
               </Tooltip>
             ))}
