@@ -127,8 +127,9 @@ export const closeLogoutConfirmDialog = () => ({
   type: CLOSE_LOGOUT_CONFIRM_DIALOG
 });
 
-export const openKnockDialog = () => ({
-  type: OPEN_KNOCK_DIALOG
+export const openKnockDialog = room => ({
+  type: OPEN_KNOCK_DIALOG,
+  room
 });
 
 export const closeKnockDialog = () => ({

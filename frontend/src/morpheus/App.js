@@ -16,7 +16,7 @@ import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
 import { joinExternalMeetingForRoom } from "./containers/OfficePage";
 
-import { emitEnterInRoom, emitInviteUser } from "./socket";
+import { emitEnterInRoom, emitInviteUser, emitKnockDoor } from "./socket";
 import {
   setCurrentUser,
   setCurrentRoom,
@@ -172,10 +172,11 @@ const MorpheusApp = ({
       />
       <KnockDialog
         open={knockDialog.isOpen}
-        currentRoomName={currentRoom.name}
+        currentRoomName={knockDialog.roomName}
         onClose={onCloseKnockDialog}
         onConfirm={() => {
-          // emitInviteUser(userToInvite.id);
+          onCloseKnockDialog()
+          emitKnockDoor(knockDialog.roomId)
         }}
       />
       <MessageDialog />
@@ -220,8 +221,7 @@ MorpheusApp.defaultProps = {
   onRemoveUser: () => { },
   onUserEnterMeeting: () => { },
   onUserLeftMeeting: () => { },
-  error: undefined,
-  isKnockModalOpen: false
+  error: undefined
 };
 
 const mapStateToProps = state => ({

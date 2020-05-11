@@ -58,7 +58,7 @@ export const initialState = {
     isOpen: false
   },
   knockDialog: {
-    isOpen: false
+    isOpen: false,
   }
 };
 
@@ -338,7 +338,9 @@ const reducers = (state = initialState, action) => {
       return {
         ...state,
         knockDialog: {
-          isOpen: true
+          isOpen: true,
+          roomId: action.room.id,
+          roomName: action.room.name
         }
       };
     case CLOSE_KNOCK_DIALOG:
