@@ -92,6 +92,10 @@ OfficeEvents.prototype.onUpdateRooms = function onUpdateRooms(callback) {
   this.listenEvent("update-rooms", callback);
 };
 
+OfficeEvents.prototype.onAnswerKnockRoom = function onAnswerKnockRoom(callback) {
+  this.listenEvent("answer-knock-room", callback);
+};
+
 OfficeEvents.prototype.onSyncOffice = function onSyncOffice(callback) {
   this.listenEvent("sync-office", callback);
 };

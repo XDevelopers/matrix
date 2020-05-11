@@ -128,11 +128,11 @@ class Office {
 
   knockRoom(user, room) {
     console.log('nock nock', user, room);
-    const usersInRoom = this.officeController.getUsersByRoom(previous.room);
+    const usersInRoom = this.officeController.getUsersByRoom(room);
     usersInRoom.forEach(userInRoom => {
       this.io
         .to(userInRoom.user.socketId)
-        .emit("answer-knock-room", { user: user, room: userInRoom.room });
+        .emit("answer-knock-room", { user, room });
     });
   }
 

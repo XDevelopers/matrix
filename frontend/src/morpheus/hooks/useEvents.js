@@ -41,6 +41,9 @@ const useEvents = (
         }
       }, 500);
 
+      events.onAnswerKnockRoom((user, room) => {
+        console.log('answer knock', room, user);
+      });
       events.onUpdateRooms(onUpdateRooms);
       events.onSyncOffice(onSyncOffice);
       events.onParticipantJoined((user, roomId) => {
