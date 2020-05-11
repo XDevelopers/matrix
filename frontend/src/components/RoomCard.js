@@ -79,9 +79,33 @@ const useStyles = makeStyles(() => ({
     }
   },
   actionButton: {
-    color: '#BBB',
+    color: '#CCC',
     fontWeight: 'bold',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  closeButton: {
+    color: '#FF0000',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    "&:hover": {
+      backgroundColor: 'rgba(150, 0, 0, 0.2)'
+    }
+  },
+  knockButton: {
+    color: '#FFFF00',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    "&:hover": {
+      backgroundColor: 'rgba(150, 150, 0, 0.2)'
+    }
+  },  
+  openButton: {
+    color: '#00FF00',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    "&:hover": {
+      backgroundColor: 'rgba(0, 150, 0, 0.2)'
+    }
   },
   '@keyframes blinker': {
     from: { opacity: 1 },
@@ -187,7 +211,7 @@ const RoomCard = (
 
   const RoomActions1 = () => {
     return (
-      <CardActions>       
+      <CardActions>
         {!insideRoom && (
           <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
             Enter
@@ -206,17 +230,17 @@ const RoomCard = (
     return (
       <CardActions>
         {insideRoom && !closed && (
-          <Button size="small" className={classes.actionButton} onClick={onCloseRoom}>
+          <Button size="small" className={classes.closeButton} onClick={onCloseRoom}>
             Close
           </Button>
         )}
         {insideRoom && closed && (
-          <Button size="small" className={classes.actionButton} onClick={onOpenRoom}>
+          <Button size="small" className={classes.openButton} onClick={onOpenRoom}>
             Open
           </Button>
         )}
         {!insideRoom && closed && (
-          <Button size="small" className={classes.actionButton} onClick={onKnockRoom}>
+          <Button size="small" className={classes.knockButton} onClick={onKnockRoom}>
             Knock
           </Button>
         )}

@@ -52,7 +52,9 @@ class Office {
           console.log("disconect:", currentUser.id, new Date().getTime());
           this.io.sockets.emit("disconnect", currentUser.id);
           this.officeController.removeUser(currentUser.id);
-          this.openEmptyRooms();
+          setTimeout(() => {
+            this.openEmptyRooms();
+          }, 5000);
         }
       });
 
