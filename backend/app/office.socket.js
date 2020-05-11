@@ -67,6 +67,10 @@ class Office {
         this.openRoom(currentUser, data.room);
       });
 
+      socket.on("knock-room", data => {
+        this.knockRoom(currentUser, data.room);
+      });
+
       socket.on("start-meet", userId => {
         this.updateUserMeetInformation(userId, "start-meet", true);
       });
@@ -120,6 +124,10 @@ class Office {
   openRoom(user, room) {
     this.roomsController.openRoom(room);
     this.updateRooms();
+  }
+
+  knockRoom(user, room) {
+    console.log('nock nock', room);
   }
 
   updateRooms() {
