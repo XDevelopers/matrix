@@ -194,6 +194,7 @@ const RoomCard = (
     start, users,
     currentUser,
     closed,
+    top,
     meetingEnabled,
     onEnterRoom,
     onCloseRoom,
@@ -229,17 +230,17 @@ const RoomCard = (
   const RoomActions = () => {
     return (
       <CardActions>
-        {insideRoom && !closed && (
+        {insideRoom && !closed && !top && (
           <Button size="small" className={classes.closeButton} onClick={onCloseRoom}>
             Close
           </Button>
         )}
-        {insideRoom && closed && (
+        {insideRoom && closed && !top && (
           <Button size="small" className={classes.openButton} onClick={onOpenRoom}>
             Open
           </Button>
         )}
-        {!insideRoom && closed && (
+        {!insideRoom && closed && !top && (
           <Button size="small" className={classes.knockButton} onClick={onKnockRoom}>
             Knock
           </Button>
