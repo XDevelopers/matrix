@@ -52,7 +52,7 @@ export const getCurrentUser = () => {
   return profile.loadStoredProfile();
 };
 
-const saveCurrentUserRoom = roomId => {
+export const saveCurrentUserRoom = roomId => {
   profile.storeRoom(roomId);
 };
 

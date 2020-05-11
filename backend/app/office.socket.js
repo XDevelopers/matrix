@@ -107,21 +107,28 @@ class Office {
   }
 
   addUserInRoom(user, room) {
-    this.openRoomIfEmpty(user, room);
-
     this.officeController.addUserInRoom(user, room);
     const userInRoom = this.officeController.getUserInRoom(user.id);
-
     this.io.sockets.emit("enter-room", userInRoom);
+
+    this.openEmptyRooms();
   }
 
-  openRoomIfEmpty(user, room) {
-    const previous = this.officeController.getUserInRoom(user.id);
-    if (previous && previous.room !== room) {
-      const usersInRoom = this.officeController.getUsersByRoom(previous.room);
-      if (usersInRoom.length === 1 && usersInRoom[0].user.id === user.id) {
-        this.openRoom(user, previous.room)
+  openEmptyRooms() {
+    const rooms = this.roomsController.getRooms();
+    let shouldUpdateRooms = false;
+    rooms.forEach(room => {
+      if (room.closed) {
+        const usersInRoom = this.officeController.getUsersByRoom(room.id);
+        if (usersInRoom.length === 0) {
+          console.log('opening room', room.id);
+          room.closed = false;
+          shouldUpdateRooms = true;
+        }
       }
+    });
+    if (shouldUpdateRooms) {
+      this.updateRooms();
     }
   }
 

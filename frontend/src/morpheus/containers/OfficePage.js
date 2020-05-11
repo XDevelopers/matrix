@@ -12,8 +12,8 @@ import {
   selectRooms,
   selectCurrentUser
 } from "../store/selectors";
-import { emitEnterInRoom, emitCloseRoom, emitOpenRoom, emitStartMeeting, emitLeftMeeting } from "../socket";
-import { setCurrentRoom, openKnockDialog } from "../store/actions";
+import { emitEnterInRoom, emitCloseRoom, emitOpenRoom, emitStartMeeting, emitLeftMeeting, saveCurrentUserRoom } from "../socket";
+import { setCurrentRoom, openKnockDialog, addUser } from "../store/actions";
 import { CurrentRoomPropType, CurrentUserPropType } from "../store/models";
 
 const useStyles = makeStyles(theme => ({
@@ -44,6 +44,7 @@ const joinExternalMeetingForRoom = (currentUser, room) => {
 const OfficePage = ({
   onSetCurrentRoom,
   onOpenKnockDialog,
+  onAddUser,
   history,
   match,
   office,
@@ -73,10 +74,14 @@ const OfficePage = ({
             key={room.id}
             currentUser={currentUser}
             onEnterRoom={() => {
+              // saveCurrentUserRoom(room);
+              onSetCurrentRoom(room);              
               emitEnterInRoom(room.id);
-              // TODO: open room if last in room
-              onSetCurrentRoom(room);
+              // onAddUser(currentUser, room.id);
               history.replace(`/morpheus/office/${room.id}`);
+              // setTimeout(() => {
+              //   emitEnterInRoom(room.id);
+              // }, 1);
             }}
             onCloseRoom={() => emitCloseRoom(room.id)}
             onOpenRoom={() => emitOpenRoom(room.id)}
@@ -132,7 +137,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   onSetCurrentRoom: setCurrentRoom,
-  onOpenKnockDialog: openKnockDialog
+  onOpenKnockDialog: openKnockDialog,
+  onAddUser: addUser
 };
 
 export default connect(
