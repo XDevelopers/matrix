@@ -74,26 +74,31 @@ const OfficePage = ({
             key={room.id}
             currentUser={currentUser}
             onEnterRoom={() => {
-              // saveCurrentUserRoom(room);
+              saveCurrentUserRoom(room.id);
               onSetCurrentRoom(room);              
-              emitEnterInRoom(room.id);
-              // onAddUser(currentUser, room.id);
+              onAddUser(currentUser, room.id);
               history.replace(`/morpheus/office/${room.id}`);
-              // setTimeout(() => {
-              //   emitEnterInRoom(room.id);
-              // }, 1);
+              setTimeout(() => {
+                emitEnterInRoom(room.id);
+              }, 1);
             }}
             onCloseRoom={() => emitCloseRoom(room.id)}
             onOpenRoom={() => emitOpenRoom(room.id)}
             onKnockRoom={() => onOpenKnockDialog(room)}
             onEnterMeeting={() => {
-              emitEnterInRoom(room.id);
-              onSetCurrentRoom(room);
-              if (room.externalMeetUrl) {
-                joinExternalMeetingForRoom(currentUser, room);
-              } else {
-                history.push(`/morpheus/room/${room.id}`);
-              }
+              saveCurrentUserRoom(room.id);
+              onSetCurrentRoom(room);              
+              onAddUser(currentUser, room.id);
+              history.replace(`/morpheus/office/${room.id}`);
+              setTimeout(() => {
+                emitEnterInRoom(room.id);
+                // open meeting              
+                if (room.externalMeetUrl) {
+                  joinExternalMeetingForRoom(currentUser, room);
+                } else {
+                  history.push(`/morpheus/room/${room.id}`);
+                }  
+              }, 1);
             }}
           />
         ))}

@@ -185,7 +185,7 @@ const RoomCard = (
   const style = parseStyle(styleStr);
   const insideRoom = users.filter(u => u.id === currentUser.id).length > 0;
 
-  const RoomActions = () => {
+  const RoomActions1 = () => {
     return (
       <CardActions>       
         {!insideRoom && (
@@ -202,7 +202,7 @@ const RoomCard = (
     )
   }
 
-  const RoomActions2 = () => {
+  const RoomActions = () => {
     return (
       <CardActions>
         {insideRoom && !closed && (

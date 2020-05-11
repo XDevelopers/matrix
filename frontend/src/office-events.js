@@ -27,9 +27,6 @@ OfficeEvents.prototype.listenEvent = function listenEvent(event, callback) {
     if (event === 'disconnect') {
       console.log('disconnect', data, new Date().getTime());
     }
-    if (event === 'update-rooms') {
-      console.log('update-rooms');
-    }
     if (data.user) {
       callback(data.user, data.room);
     } else {
