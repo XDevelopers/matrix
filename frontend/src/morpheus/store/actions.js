@@ -16,6 +16,9 @@ export const TOGGLE_MESSAGE_DIALOG = "TOGGLE_MESSAGE_DIALOG";
 export const TOGGLE_THEME = "TOGGLE_THEME";
 export const OPEN_LOGOUT_CONFIRM_DIALOG = "OPEN_LOGOUT_CONFIRM_DIALOG";
 export const CLOSE_LOGOUT_CONFIRM_DIALOG = "CLOSE_LOGOUT_CONFIRM_DIALOG";
+export const OPEN_KNOCK_DIALOG = "OPEN_KNOCK_DIALOG";
+export const CLOSE_KNOCK_DIALOG = "CLOSE_KNOCK_DIALOG";
+
 
 export const setCurrentUser = user => ({
   type: SET_CURRENT_USER,
@@ -122,4 +125,12 @@ export const openLogoutConfirmDialog = () => ({
 
 export const closeLogoutConfirmDialog = () => ({
   type: CLOSE_LOGOUT_CONFIRM_DIALOG
+});
+
+export const openKnockDialog = () => ({
+  type: OPEN_KNOCK_DIALOG
+});
+
+export const closeKnockDialog = () => ({
+  type: CLOSE_KNOCK_DIALOG
 });

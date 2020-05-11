@@ -16,7 +16,9 @@ import {
   TOGGLE_MESSAGE_DIALOG,
   TOGGLE_THEME,
   OPEN_LOGOUT_CONFIRM_DIALOG,
-  CLOSE_LOGOUT_CONFIRM_DIALOG
+  CLOSE_LOGOUT_CONFIRM_DIALOG,
+  OPEN_KNOCK_DIALOG,
+  CLOSE_KNOCK_DIALOG
 } from "./actions";
 import storage from "./storage";
 import { getDefaultTheme, toggleTheme } from "../Themes";
@@ -53,6 +55,9 @@ export const initialState = {
     message: undefined
   },
   logoutDialog: {
+    isOpen: false
+  },
+  knockDialog: {
     isOpen: false
   }
 };
@@ -326,6 +331,21 @@ const reducers = (state = initialState, action) => {
       return {
         ...state,
         logoutDialog: {
+          isOpen: false
+        }
+      };
+    case OPEN_KNOCK_DIALOG:
+      console.log('here');
+      return {
+        ...state,
+        knockDialog: {
+          isOpen: true
+        }
+      };
+    case CLOSE_KNOCK_DIALOG:
+      return {
+        ...state,
+        knockDialog: {
           isOpen: false
         }
       };

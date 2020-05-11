@@ -10,6 +10,7 @@ import MenuUsers from "../components/MenuUsers";
 import InviteToMeetingDialog from "../components/InviteToMeetingDialog";
 import ReceiveInviteDialog from "../components/ReceiveInviteDialog";
 import MessageDialog from "../components/MessageDialog";
+import KnockDialog from "../components/KnockDialog";
 import Error500 from "../components/Error500";
 import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
@@ -37,7 +38,8 @@ import {
   selectCurrentRoom,
   selectError,
   selectSystemSettings,
-  selectTheme
+  selectTheme,
+  selectIsKnockDialogOpen
 } from "./store/selectors";
 import {
   CurrentRoomPropType,
@@ -70,6 +72,7 @@ const MorpheusApp = ({
   currentUser,
   users,
   usersFilter,
+  isKnockModalOpen,
   error
 }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -165,6 +168,16 @@ const MorpheusApp = ({
           }
         }}
       />
+      <KnockDialog
+        open={isKnockModalOpen}
+        currentRoomName={currentRoom.name}
+        onClose={() => {
+          // setInviteModalOpen(false);
+        }}
+        onConfirm={() => {
+          // emitInviteUser(userToInvite.id);
+        }}
+      />
       <MessageDialog />
       <ConfirmLogoutDialog />
     </>
@@ -207,7 +220,8 @@ MorpheusApp.defaultProps = {
   onRemoveUser: () => { },
   onUserEnterMeeting: () => { },
   onUserLeftMeeting: () => { },
-  error: undefined
+  error: undefined,
+  isKnockModalOpen: false
 };
 
 const mapStateToProps = state => ({
@@ -218,7 +232,8 @@ const mapStateToProps = state => ({
   users: selectUsers(state),
   usersFilter: selectUsersFilter(state),
   settings: selectSystemSettings(state),
-  error: selectError(state)
+  error: selectError(state),
+  isKnockModalOpen: selectIsKnockDialogOpen(state)
 });
 
 const mapDispatchToProps = {

@@ -13,7 +13,7 @@ import {
   selectCurrentUser
 } from "../store/selectors";
 import { emitEnterInRoom, emitCloseRoom, emitOpenRoom, emitStartMeeting, emitLeftMeeting } from "../socket";
-import { setCurrentRoom } from "../store/actions";
+import { setCurrentRoom, openKnockDialog } from "../store/actions";
 import { CurrentRoomPropType, CurrentUserPropType } from "../store/models";
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +43,7 @@ const joinExternalMeetingForRoom = (currentUser, room) => {
 
 const OfficePage = ({
   onSetCurrentRoom,
+  onOpenKnockDialog,
   history,
   match,
   office,
@@ -78,6 +79,7 @@ const OfficePage = ({
             }}
             onCloseRoom={() => emitCloseRoom(room.id)}
             onOpenRoom={() => emitOpenRoom(room.id)}
+            onKnockRoom={() => onOpenKnockDialog(room)}
             onEnterMeeting={() => {
               emitEnterInRoom(room.id);
               onSetCurrentRoom(room);
@@ -128,7 +130,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSetCurrentRoom: setCurrentRoom
+  onSetCurrentRoom: setCurrentRoom,
+  onOpenKnockDialog: openKnockDialog
 };
 
 export default connect(
