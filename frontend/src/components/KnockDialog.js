@@ -6,19 +6,29 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  highlight: {
+    fontWeight: 'bold'
+  }
+}));
 
 const KnockDialog = ({
   open,
   onClose,
   onConfirm,
   currentRoomName
-}) => (
+}) => {
+  const classes = useStyles();
+  return (
     open &&
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">Knock the door</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Knock Knock</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Knock the door of {currentRoomName}?
+          Would you like to knock the <Box component="span" className={classes.highlight} color="secondary.main">{currentRoomName}</Box>'s door?
       </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -33,11 +43,12 @@ const KnockDialog = ({
           color="primary"
           autoFocus
         >
-          Knock
+          YES
       </Button>
       </DialogActions>
     </Dialog>
   );
+}
 
 KnockDialog.propTypes = {
   open: PropTypes.bool,

@@ -6,6 +6,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Box from "@material-ui/core/Box"
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  highlight: {
+    display: 'inline',
+    fontWeight: 'bold'
+  }
+}));
 
 const AnswerKnockDialog = ({
   open,
@@ -13,13 +22,15 @@ const AnswerKnockDialog = ({
   onConfirm,
   userName,
   roomName
-}) => (
+}) => {
+  const classes = useStyles();
+  return (
     open &&
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">Someone is knocking {roomName}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Knock Knock</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Open the door for {userName}?
+          <Box component="span" className={classes.highlight} color="secondary.main">{userName}</Box> is knocking <Box component="span" className={classes.highlight} color="secondary.main">{roomName}</Box>'s door!
       </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -34,11 +45,12 @@ const AnswerKnockDialog = ({
           color="primary"
           autoFocus
         >
-          Open
+          Open the door
       </Button>
       </DialogActions>
     </Dialog>
   );
+}
 
 AnswerKnockDialog.propTypes = {
   open: PropTypes.bool,
