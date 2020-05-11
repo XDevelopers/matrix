@@ -11,6 +11,7 @@ import InviteToMeetingDialog from "../components/InviteToMeetingDialog";
 import ReceiveInviteDialog from "../components/ReceiveInviteDialog";
 import MessageDialog from "../components/MessageDialog";
 import KnockDialog from "../components/KnockDialog";
+import AnswerKnockDialog from "../components/AnswerKnockDialog";
 import Error500 from "../components/Error500";
 import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
@@ -29,7 +30,8 @@ import {
   removeUser,
   userEnterMeeting,
   userLeftMeeting,
-  closeKnockDialog
+  closeKnockDialog,
+  openAnswerKnockDialog
 } from "./store/actions";
 import {
   selectRooms,
@@ -40,7 +42,8 @@ import {
   selectError,
   selectSystemSettings,
   selectTheme,
-  selectKnockDialog
+  selectKnockDialog,
+  selectAnswerKnockDialog
 } from "./store/selectors";
 import {
   CurrentRoomPropType,
@@ -67,6 +70,7 @@ const MorpheusApp = ({
   onUserEnterMeeting,
   onUserLeftMeeting,
   onCloseKnockDialog,
+  onOpenAnswerKnockDialog,
   history,
   currentRoom,
   settings,
@@ -75,6 +79,7 @@ const MorpheusApp = ({
   users,
   usersFilter,
   knockDialog,
+  answerKnockDialog,
   error
 }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -102,6 +107,7 @@ const MorpheusApp = ({
     onUserLeftMeeting,
     enqueueSnackbar,
     closeSnackbar,
+    onOpenAnswerKnockDialog,
     setReceiveInviteOpen,
     setInvitation,
     isLoggedIn,
@@ -179,6 +185,16 @@ const MorpheusApp = ({
           emitKnockRoom(knockDialog.roomId)
         }}
       />
+      <AnswerKnockDialog
+        open={answerKnockDialog.isOpen}
+        userName={answerKnockDialog.userName}
+        roomName={answerKnockDialog.roomName}
+        onClose={() => {}}
+        onConfirm={() => {
+          // onCloseKnockDialog()
+          // emitKnockRoom(knockDialog.roomId)
+        }}
+      />
       <MessageDialog />
       <ConfirmLogoutDialog />
     </>
@@ -233,7 +249,8 @@ const mapStateToProps = state => ({
   usersFilter: selectUsersFilter(state),
   settings: selectSystemSettings(state),
   error: selectError(state),
-  knockDialog: selectKnockDialog(state)
+  knockDialog: selectKnockDialog(state),
+  answerKnockDialog: selectAnswerKnockDialog(state)
 });
 
 const mapDispatchToProps = {
@@ -248,7 +265,8 @@ const mapDispatchToProps = {
   onRemoveUser: removeUser,
   onUserEnterMeeting: userEnterMeeting,
   onUserLeftMeeting: userLeftMeeting,
-  onCloseKnockDialog: closeKnockDialog
+  onCloseKnockDialog: closeKnockDialog,
+  onOpenAnswerKnockDialog: openAnswerKnockDialog
 };
 
 export default withRouter(

@@ -18,6 +18,8 @@ export const OPEN_LOGOUT_CONFIRM_DIALOG = "OPEN_LOGOUT_CONFIRM_DIALOG";
 export const CLOSE_LOGOUT_CONFIRM_DIALOG = "CLOSE_LOGOUT_CONFIRM_DIALOG";
 export const OPEN_KNOCK_DIALOG = "OPEN_KNOCK_DIALOG";
 export const CLOSE_KNOCK_DIALOG = "CLOSE_KNOCK_DIALOG";
+export const OPEN_ANSWER_KNOCK_DIALOG = "OPEN_ANSWER_KNOCK_DIALOG";
+export const CLOSE_ANSWER_KNOCK_DIALOG = "CLOSE_ANSWER_KNOCK_DIALOG";
 
 
 export const setCurrentUser = user => ({
@@ -134,4 +136,14 @@ export const openKnockDialog = room => ({
 
 export const closeKnockDialog = () => ({
   type: CLOSE_KNOCK_DIALOG
+});
+
+export const openAnswerKnockDialog = (user, room) => ({
+  type: OPEN_ANSWER_KNOCK_DIALOG,
+  user,
+  room
+});
+
+export const closeAnswerKnockDialog = () => ({
+  type: CLOSE_ANSWER_KNOCK_DIALOG
 });

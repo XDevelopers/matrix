@@ -18,7 +18,9 @@ import {
   OPEN_LOGOUT_CONFIRM_DIALOG,
   CLOSE_LOGOUT_CONFIRM_DIALOG,
   OPEN_KNOCK_DIALOG,
-  CLOSE_KNOCK_DIALOG
+  CLOSE_KNOCK_DIALOG,
+  OPEN_ANSWER_KNOCK_DIALOG,
+  CLOSE_ANSWER_KNOCK_DIALOG
 } from "./actions";
 import storage from "./storage";
 import { getDefaultTheme, toggleTheme } from "../Themes";
@@ -58,7 +60,10 @@ export const initialState = {
     isOpen: false
   },
   knockDialog: {
-    isOpen: false,
+    isOpen: false
+  },
+  answerKnockDialog: {
+    isOpen: false
   }
 };
 
@@ -347,6 +352,24 @@ const reducers = (state = initialState, action) => {
       return {
         ...state,
         knockDialog: {
+          isOpen: false
+        }
+      };
+    case OPEN_ANSWER_KNOCK_DIALOG:
+      return {
+        ...state,
+        answerKnockDialog: {
+          isOpen: true,
+          userId: action.user.id,
+          userName: action.user.name,
+          roomId: action.room.id,
+          roomName: action.room.name
+        }
+      };
+    case CLOSE_ANSWER_KNOCK_DIALOG:
+      return {
+        ...state,
+        answerKnockDialog: {
           isOpen: false
         }
       };

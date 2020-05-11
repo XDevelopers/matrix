@@ -28,3 +28,5 @@ export const selectTheme = state => state.theme;
 export const selectIsLogoutDialogOpen = state => state.logoutDialog.isOpen;
 
 export const selectKnockDialog = state => state.knockDialog;
+
+export const selectAnswerKnockDialog = state => state.answerKnockDialog;

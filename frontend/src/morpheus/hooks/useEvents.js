@@ -14,6 +14,7 @@ const useEvents = (
   onUserLeftMeeting,
   enqueueSnackbar,
   closeSnackbar,
+  onOpenAnswerKnockDialog,
   setReceiveInviteOpen,
   setInvitation,
   isLoggedIn,
@@ -41,8 +42,9 @@ const useEvents = (
         }
       }, 500);
 
-      events.onAnswerKnockRoom((user, room) => {
-        console.log('answer knock', room, user);
+      events.onAnswerKnockRoom((user, roomId) => {
+        const room = rooms.find(r => r.id === roomId);
+        onOpenAnswerKnockDialog(user, room);
       });
       events.onUpdateRooms(onUpdateRooms);
       events.onSyncOffice(onSyncOffice);
