@@ -31,7 +31,8 @@ import {
   userEnterMeeting,
   userLeftMeeting,
   closeKnockDialog,
-  openAnswerKnockDialog
+  openAnswerKnockDialog,
+  closeAnswerKnockDialog
 } from "./store/actions";
 import {
   selectRooms,
@@ -71,6 +72,7 @@ const MorpheusApp = ({
   onUserLeftMeeting,
   onCloseKnockDialog,
   onOpenAnswerKnockDialog,
+  onCloseAnswerKnockDialog,
   history,
   currentRoom,
   settings,
@@ -189,7 +191,7 @@ const MorpheusApp = ({
         open={answerKnockDialog.isOpen}
         userName={answerKnockDialog.userName}
         roomName={answerKnockDialog.roomName}
-        onClose={() => {}}
+        onClose={onCloseAnswerKnockDialog}
         onConfirm={() => {
           // onCloseKnockDialog()
           // emitKnockRoom(knockDialog.roomId)
@@ -266,7 +268,8 @@ const mapDispatchToProps = {
   onUserEnterMeeting: userEnterMeeting,
   onUserLeftMeeting: userLeftMeeting,
   onCloseKnockDialog: closeKnockDialog,
-  onOpenAnswerKnockDialog: openAnswerKnockDialog
+  onOpenAnswerKnockDialog: openAnswerKnockDialog,
+  onCloseAnswerKnockDialog: closeAnswerKnockDialog
 };
 
 export default withRouter(

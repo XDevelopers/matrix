@@ -14,6 +14,7 @@ const AnswerKnockDialog = ({
   userName,
   roomName
 }) => (
+    open &&
     <Dialog open={open} onClose={onClose}>
       <DialogTitle id="alert-dialog-title">Someone is knocking {roomName}</DialogTitle>
       <DialogContent>
@@ -39,7 +40,7 @@ const AnswerKnockDialog = ({
     </Dialog>
   );
 
-  AnswerKnockDialog.propTypes = {
+AnswerKnockDialog.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,

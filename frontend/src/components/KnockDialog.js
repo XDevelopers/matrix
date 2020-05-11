@@ -13,6 +13,7 @@ const KnockDialog = ({
   onConfirm,
   currentRoomName
 }) => (
+    open &&
     <Dialog open={open} onClose={onClose}>
       <DialogTitle id="alert-dialog-title">Knock the door</DialogTitle>
       <DialogContent>
