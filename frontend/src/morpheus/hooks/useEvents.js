@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 
 import SnackbarActions from "../../components/SnackbarActions";
 import { showBrowserNotification } from "../../notification";
-import { initEvents, emitEnterInRoom, closeConnection } from "../socket";
+import { initEvents, emitEnterInRoom, closeConnection, saveCurrentUserRoom } from "../socket";
 
 const useEvents = (
   onUpdateRooms,
@@ -50,10 +50,13 @@ const useEvents = (
       });
       events.onEnterRoomAllowed((user, roomId) => {
         const room = rooms.find(r => r.id === roomId);
-        emitEnterInRoom(room.id);
-        // TODO: open room if last in room
-        onSetCurrentRoom(room);
-        history.replace(`/morpheus/office/${room.id}`);        
+        saveCurrentUserRoom(room.id);
+        onSetCurrentRoom(room);              
+        onAddUser(currentUser, room.id);
+        history.replace(`/morpheus/office/${room.id}`);
+        setTimeout(() => {
+          emitEnterInRoom(room.id);
+        }, 1);
       });
       events.onUpdateRooms(onUpdateRooms);
       events.onSyncOffice(onSyncOffice);
