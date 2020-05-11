@@ -55,6 +55,10 @@ OfficeEvents.prototype.knockRoom = function knockRoom(roomId) {
   this.emitEvent("knock-room", { room: roomId, user: this.config.currentUser });
 };
 
+OfficeEvents.prototype.allowUserEnterRoom = function allowUserEnterRoom(userId, roomId) {
+  this.emitEvent("allow-user-enter-room", { room: roomId, user: userId });
+};
+
 OfficeEvents.prototype.startMeet = function startMeet() {
   this.emitEvent("start-meet", this.config.currentUser.id);
 };
@@ -96,6 +100,10 @@ OfficeEvents.prototype.onAnswerKnockRoom = function onAnswerKnockRoom(callback) 
   this.listenEvent("answer-knock-room", callback);
 };
 
+OfficeEvents.prototype.onEnterRoomAllowed = function onEnterRoomAllowed(callback) {
+  this.listenEvent("enter-room-allowed", callback);
+};
+
 OfficeEvents.prototype.onSyncOffice = function onSyncOffice(callback) {
   this.listenEvent("sync-office", callback);
 };
@@ -105,6 +113,7 @@ OfficeEvents.prototype.onParticipantIsCalled = function onParticipantIsCalled(
 ) {
   this.listenEvent("get-user-to-room", callback);
 };
+
 
 OfficeEvents.prototype.onDisconnect = function onDisconnect(callback) {
   this.listenEvent("disconnect", callback);

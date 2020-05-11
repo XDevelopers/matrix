@@ -87,6 +87,15 @@ class Office {
             .emit("get-user-to-room", { user: currentUser, room: data.room });
         }
       });
+
+      socket.on("allow-user-enter-room", data => {
+        const userInRoom = this.officeController.getUserInRoom(data.user);
+        if (userInRoom) {
+          this.io
+            .to(userInRoom.user.socketId)
+            .emit("enter-room-allowed", { user: currentUser, room: data.room });
+        }
+      });
     });
   }
 
@@ -127,7 +136,6 @@ class Office {
   }
 
   knockRoom(user, room) {
-    console.log('nock nock', user, room);
     const usersInRoom = this.officeController.getUsersByRoom(room);
     usersInRoom.forEach(userInRoom => {
       this.io

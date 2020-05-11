@@ -83,6 +83,9 @@ export const emitKnockRoom = roomId => {
   events.knockRoom(roomId);
 };
 
+export const emitAllowUserEnterRoom = (userId, roomId) => {
+  events.allowUserEnterRoom(userId, roomId);
+};
 
 export const emitStartMeeting = () => {
   events.startMeet();

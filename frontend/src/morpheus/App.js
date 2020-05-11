@@ -17,7 +17,7 @@ import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
 import { joinExternalMeetingForRoom } from "./containers/OfficePage";
 
-import { emitEnterInRoom, emitInviteUser, emitKnockRoom } from "./socket";
+import { emitEnterInRoom, emitInviteUser, emitKnockRoom, emitAllowUserEnterRoom } from "./socket";
 import {
   setCurrentUser,
   setCurrentRoom,
@@ -116,7 +116,9 @@ const MorpheusApp = ({
     rooms,
     settings,
     currentUser,
-    currentRoom
+    currentRoom,
+    onSetCurrentRoom,
+    history
   );
 
   if (error) {
@@ -183,8 +185,8 @@ const MorpheusApp = ({
         currentRoomName={knockDialog.roomName}
         onClose={onCloseKnockDialog}
         onConfirm={() => {
-          onCloseKnockDialog()
-          emitKnockRoom(knockDialog.roomId)
+          onCloseKnockDialog();
+          emitKnockRoom(knockDialog.roomId);
         }}
       />
       <AnswerKnockDialog
@@ -193,8 +195,8 @@ const MorpheusApp = ({
         roomName={answerKnockDialog.roomName}
         onClose={onCloseAnswerKnockDialog}
         onConfirm={() => {
-          // onCloseKnockDialog()
-          // emitKnockRoom(knockDialog.roomId)
+          onCloseAnswerKnockDialog();
+          emitAllowUserEnterRoom(answerKnockDialog.userId, answerKnockDialog.roomId)
         }}
       />
       <MessageDialog />

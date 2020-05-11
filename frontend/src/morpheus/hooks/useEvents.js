@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 
 import SnackbarActions from "../../components/SnackbarActions";
 import { showBrowserNotification } from "../../notification";
-import { initEvents, closeConnection } from "../socket";
+import { initEvents, emitEnterInRoom, closeConnection } from "../socket";
 
 const useEvents = (
   onUpdateRooms,
@@ -21,7 +21,9 @@ const useEvents = (
   rooms,
   settings,
   currentUser,
-  currentRoom
+  currentRoom,
+  onSetCurrentRoom,
+  history
 ) => {
   useEffect(() => {
     if (isLoggedIn) {
@@ -45,6 +47,13 @@ const useEvents = (
       events.onAnswerKnockRoom((user, roomId) => {
         const room = rooms.find(r => r.id === roomId);
         onOpenAnswerKnockDialog(user, room);
+      });
+      events.onEnterRoomAllowed((user, roomId) => {
+        const room = rooms.find(r => r.id === roomId);
+        emitEnterInRoom(room.id);
+        // TODO: open room if last in room
+        onSetCurrentRoom(room);
+        history.replace(`/morpheus/office/${room.id}`);        
       });
       events.onUpdateRooms(onUpdateRooms);
       events.onSyncOffice(onSyncOffice);
@@ -77,7 +86,6 @@ const useEvents = (
     }
 
     return () => {
-      console.log('return of useEffect');
       closeConnection();
     };
   }, [
