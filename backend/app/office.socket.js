@@ -109,8 +109,8 @@ class Office {
   openRoomIfEmpty(user, room) {
     const previous = this.officeController.getUserInRoom(user.id);
     if (previous && previous.room !== room) {
-      const users = this.officeController.getUsersByRoom(previous.room);
-      if (users.length === 1 && users[0] === user.id) {
+      const usersInRoom = this.officeController.getUsersByRoom(previous.room);
+      if (usersInRoom.length === 1 && usersInRoom[0].user.id === user.id) {
         this.openRoom(user, previous.room)
       }
     }
@@ -127,7 +127,13 @@ class Office {
   }
 
   knockRoom(user, room) {
-    console.log('nock nock', room);
+    console.log('nock nock', user, room);
+    const usersInRoom = this.officeController.getUsersByRoom(previous.room);
+    usersInRoom.forEach(userInRoom => {
+      this.io
+        .to(userInRoom.user.socketId)
+        .emit("answer-knock-room", { user: user, room: userInRoom.room });
+    });
   }
 
   updateRooms() {

@@ -74,6 +74,7 @@ const OfficePage = ({
             currentUser={currentUser}
             onEnterRoom={() => {
               emitEnterInRoom(room.id);
+              // TODO: open room if last in room
               onSetCurrentRoom(room);
               history.replace(`/morpheus/office/${room.id}`);
             }}

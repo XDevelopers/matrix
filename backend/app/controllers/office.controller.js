@@ -51,9 +51,9 @@ class OfficeController {
 
   getUsersByRoom(searchRoomId) {
     const users = [];
-    this.getUsersInOffice().forEach((value, key) => {
+    this.getUsersInOffice().forEach(value => {
       if (value.room === searchRoomId) {
-        users.push(key);
+        users.push(value);
       }
     });
     return users;
