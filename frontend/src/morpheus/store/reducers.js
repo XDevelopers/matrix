@@ -335,7 +335,6 @@ const reducers = (state = initialState, action) => {
         }
       };
     case OPEN_KNOCK_DIALOG:
-      console.log('here');
       return {
         ...state,
         knockDialog: {

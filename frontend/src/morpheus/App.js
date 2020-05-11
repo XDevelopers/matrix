@@ -28,7 +28,8 @@ import {
   addError,
   removeUser,
   userEnterMeeting,
-  userLeftMeeting
+  userLeftMeeting,
+  closeKnockDialog
 } from "./store/actions";
 import {
   selectRooms,
@@ -39,7 +40,7 @@ import {
   selectError,
   selectSystemSettings,
   selectTheme,
-  selectIsKnockDialogOpen
+  selectKnockDialog
 } from "./store/selectors";
 import {
   CurrentRoomPropType,
@@ -65,6 +66,7 @@ const MorpheusApp = ({
   onRemoveUser,
   onUserEnterMeeting,
   onUserLeftMeeting,
+  onCloseKnockDialog,
   history,
   currentRoom,
   settings,
@@ -72,7 +74,7 @@ const MorpheusApp = ({
   currentUser,
   users,
   usersFilter,
-  isKnockModalOpen,
+  knockDialog,
   error
 }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -169,11 +171,9 @@ const MorpheusApp = ({
         }}
       />
       <KnockDialog
-        open={isKnockModalOpen}
+        open={knockDialog.isOpen}
         currentRoomName={currentRoom.name}
-        onClose={() => {
-          // setInviteModalOpen(false);
-        }}
+        onClose={onCloseKnockDialog}
         onConfirm={() => {
           // emitInviteUser(userToInvite.id);
         }}
@@ -233,7 +233,7 @@ const mapStateToProps = state => ({
   usersFilter: selectUsersFilter(state),
   settings: selectSystemSettings(state),
   error: selectError(state),
-  isKnockModalOpen: selectIsKnockDialogOpen(state)
+  knockDialog: selectKnockDialog(state)
 });
 
 const mapDispatchToProps = {
@@ -247,7 +247,8 @@ const mapDispatchToProps = {
   onAddError: addError,
   onRemoveUser: removeUser,
   onUserEnterMeeting: userEnterMeeting,
-  onUserLeftMeeting: userLeftMeeting
+  onUserLeftMeeting: userLeftMeeting,
+  onCloseKnockDialog: closeKnockDialog
 };
 
 export default withRouter(
