@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     position: "relative",
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: 'rgba(50, 50, 50, 0.4)',  
     color: '#DDD',
     fontWeight: 'bold',
     minHeight: 153
@@ -28,14 +28,17 @@ const useStyles = makeStyles(() => ({
   },
   inactive: {
     opacity: 0.2,
-    boxShadow: 'none',
+    filter: 'grayscale(100%) blur(2px)',
     "&:hover": {
       opacity: 1,
-      boxShadow: '2px 2px 2px #111',
+      filter: 'grayscale(100%)',
+      // boxShadow: '2px 2px 2px #111'
     }
   },
   active: {
-    boxShadow: '2px 2px 2px #111'
+    // backgroundColor: 'rgba(0, 0, 0, 0)',  
+    // filter: 'brightness(120%)'
+    // boxShadow: '2px 2px 2px #111'
   },
   name: {
     textShadow: ' 3px 3px 6px #000',
@@ -78,9 +81,9 @@ const useStyles = makeStyles(() => ({
       transform: "scale(1.7)"
     },
     border: '1px solid #444',
-    filter: 'drop-shadow(3px 3px 2px #000)',
+    filter: 'brightness(130%) drop-shadow(3px 3px 2px #000)',
   },
-  avatarInMeeting: {
+  avatarInMeeting: {    
     position: "relative",
     "&:hover": {
       transform: "scale(1.7)"
@@ -208,7 +211,7 @@ const countdownText = (timeLeft) => {
 
 const rootClass = (classes, active, top) => {
   if (active) {
-    if(top) {
+    if (top) {
       return `${classes.root} ${classes.active} ${classes.top}`;
     }
     return `${classes.root} ${classes.active}`;
