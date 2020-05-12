@@ -20,7 +20,22 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     color: '#DDD',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    minHeight: 153
+  },
+  top: {
+    minHeight: 153
+  },
+  inactive: {
+    opacity: 0.2,
+    boxShadow: 'none',
+    "&:hover": {
+      opacity: 1,
+      boxShadow: '3px 3px 2px #111',
+    }
+  },
+  active: {
+    boxShadow: '3px 3px 2px #111'
   },
   name: {
     textShadow: ' 3px 3px 6px #000',
@@ -42,7 +57,11 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
+    "&:hover $focusHighlight": {
+      opacity: 0
+    }
   },
+  focusHighlight: {},
   content: {
     flex: 1
   },
@@ -98,7 +117,7 @@ const useStyles = makeStyles(() => ({
     "&:hover": {
       backgroundColor: 'rgba(150, 150, 0, 0.2)'
     }
-  },  
+  },
   openButton: {
     color: '#00FF00',
     fontWeight: 'bold',
@@ -185,6 +204,16 @@ const countdownText = (timeLeft) => {
     return `${c('minutes')} ${c('seconds')}`
   }
   return c('seconds')
+}
+
+const rootClass = (classes, active, top) => {
+  if (active) {
+    if(top) {
+      return `${classes.root} ${classes.active} ${classes.top}`;
+    }
+    return `${classes.root} ${classes.active}`;
+  }
+  return `${classes.root} ${classes.inactive}`;
 }
 
 const RoomCard = (
@@ -275,11 +304,16 @@ const RoomCard = (
 
   const isOpenCalendar = start && calculateTimeLeftMillis(start) < OPEN_ROOM_MILLIS;
 
+  const active = users.length !== 0 || top;
+
   return (
-    <Card className={classes.root}>
+    <Card className={rootClass(classes, active, top)}>
       <section className={classes.background} style={style}></section>
       <CardActionArea
-        className={classes.contentAction}
+        classes={{
+          root: classes.contentAction,
+          focusHighlight: classes.focusHighlight
+        }}
         onClick={() => {
           toggleExpand(!isExpanded);
         }}
