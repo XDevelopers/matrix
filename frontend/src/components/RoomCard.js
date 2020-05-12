@@ -31,11 +31,11 @@ const useStyles = makeStyles(() => ({
     boxShadow: 'none',
     "&:hover": {
       opacity: 1,
-      boxShadow: '3px 3px 2px #111',
+      boxShadow: '2px 2px 2px #111',
     }
   },
   active: {
-    boxShadow: '3px 3px 2px #111'
+    boxShadow: '2px 2px 2px #111'
   },
   name: {
     textShadow: ' 3px 3px 6px #000',
