@@ -177,7 +177,8 @@ const buildInMeetState = (state, action, inMeet) => {
 const updateRoomsInPlace = (stateRooms, actionRooms) => {
   updateAndInsertRooms(stateRooms, actionRooms);
   deleteRooms(stateRooms, actionRooms);
-}
+  sortRooms(stateRooms, actionRooms);
+};
 
 const updateAndInsertRooms = (stateRooms, actionRooms) => {
   const roomsById = {};
@@ -190,7 +191,7 @@ const updateAndInsertRooms = (stateRooms, actionRooms) => {
     }
   });
   return stateRooms;
-}
+};
 
 const deleteRooms = (stateRooms, actionRooms) => {
   const roomsById = {};
@@ -202,7 +203,13 @@ const deleteRooms = (stateRooms, actionRooms) => {
       i--;
     }
   }
-}
+};
+
+const sortRooms = (stateRooms, actionRooms) => {
+  const order = {};
+  actionRooms.forEach((r, index) => order[r.id] = index);
+  stateRooms.sort((a, b) => order[a.id] - order[b.id]);
+};
 
 const reducers = (state = initialState, action) => {
   switch (action.type) {

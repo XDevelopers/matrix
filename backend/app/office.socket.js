@@ -8,6 +8,7 @@ class Office {
     this.officeController = officeController;
     this.roomsController = roomsController;
     this.server = server;
+    this.lastActivity = new Date().getTime();
     // this.io = new SocketIO(server);
     this.io = new SocketIO(server, {
       pingInterval: 10000,
@@ -18,6 +19,15 @@ class Office {
 
   start() {
     this.roomsController.reloadRoomsListener(ROOMS_SOURCE, () => this.updateRooms());
+    this.roomsController.sortRoomsListener(
+      roomId => this.officeController.getUsersByRoom(roomId),
+      () => {
+        if (new Date().getTime() - this.lastActivity >= 10000) {
+          this.updateRooms();
+          return true;
+        }
+        return false;
+      });
 
     this.io.use((socket, next) => {
       const serializedUser = socket.handshake.query.user;
@@ -99,6 +109,11 @@ class Office {
             .emit("enter-room-allowed", { user: currentUser, room: data.room });
         }
       });
+
+      socket.on("user-activity", () => {
+        this.lastActivity = new Date().getTime();
+      });
+
     });
   }
 

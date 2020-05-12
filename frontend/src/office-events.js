@@ -27,9 +27,6 @@ OfficeEvents.prototype.listenEvent = function listenEvent(event, callback) {
     if (event === 'disconnect') {
       console.log('disconnect', data, new Date().getTime());
     }
-    if(event === 'update-rooms') {
-      console.log('update-rooms')
-    }
     if (data.user) {
       callback(data.user, data.room);
     } else {
@@ -77,6 +74,10 @@ OfficeEvents.prototype.callUserForMyRoom = function callUserForMyRoom(
   this.emitEvent("get-user-to-room", { room: roomId, user: userId });
 };
 
+OfficeEvents.prototype.userActivity = function userActivity() {
+  this.emitEvent("user-activity", this.config.currentUser.id);
+};
+
 OfficeEvents.prototype.onParticipantJoined = function onParticipantJoined(
   callback
 ) {
@@ -121,5 +122,6 @@ OfficeEvents.prototype.onParticipantIsCalled = function onParticipantIsCalled(
 OfficeEvents.prototype.onDisconnect = function onDisconnect(callback) {
   this.listenEvent("disconnect", callback);
 };
+
 
 export default OfficeEvents;

@@ -7,6 +7,7 @@ import OfficeEvents from "../office-events";
 let profile;
 let events;
 let defaultRoomId;
+let lastActivity;
 
 const getLastRoom = () => {
   let lastRoom = profile.loadStoredRoom();
@@ -72,7 +73,7 @@ export const emitEnterInRoom = roomId => {
 };
 
 export const emitCloseRoom = roomId => {
-    events.closeRoom(roomId);
+  events.closeRoom(roomId);
 };
 
 export const emitOpenRoom = roomId => {
@@ -112,3 +113,12 @@ export const signOut = () => {
       window.location.href = `./?error=${err.message}`;
     });
 };
+
+
+export const emitUserActivity = () => {
+  if (lastActivity && new Date().getTime() - lastActivity < 10000) {
+    return;
+  }
+  events.userActivity();
+  lastActivity = new Date().getTime();
+}

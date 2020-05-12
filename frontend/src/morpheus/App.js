@@ -17,7 +17,7 @@ import PageRoutes, { AppBarRouter } from "./Routes";
 import ConfirmLogoutDialog from "./containers/ConfirmLogoutDialog";
 import { joinExternalMeetingForRoom } from "./containers/OfficePage";
 
-import { emitEnterInRoom, emitInviteUser, emitKnockRoom, emitAllowUserEnterRoom } from "./socket";
+import { emitEnterInRoom, emitInviteUser, emitKnockRoom, emitAllowUserEnterRoom, emitUserActivity } from "./socket";
 import {
   setCurrentUser,
   setCurrentRoom,
@@ -132,7 +132,7 @@ const MorpheusApp = ({
   }
 
   return (
-    <>
+    <div onMouseMove={emitUserActivity} >
       <PageLayout
         renderAppBarMenu={() => <AppBarRouter />}
         renderSideBarMenu={() => (
@@ -201,7 +201,7 @@ const MorpheusApp = ({
       />
       <MessageDialog />
       <ConfirmLogoutDialog />
-    </>
+    </div >
   );
 };
 

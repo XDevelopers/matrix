@@ -91,12 +91,35 @@ const applyTemporaryFields = (newRooms) => {
 }
 
 const reloadRoomsListener = (strategy, cb) => {
+
   const loadRooms = () => {
     fetchRooms(strategy)
       .then((newRooms) => {
-        applyTemporaryFields(newRooms);
-        if (JSON.stringify(rooms) !== JSON.stringify(newRooms)) {
+        if (rooms.length == 0) {
+          console.log('Loading rooms...');
+          rooms = newRooms;
+          cb(rooms);
+        }
+      });
+  }
+
+  const normalizeRooms = (previousRooms, newRooms) => {
+    applyTemporaryFields(newRooms);
+    const idSort = (a, b) => a.id.localeCompare(b.id);
+    previousRooms.sort(idSort);
+    newRooms.sort(idSort);
+  }
+
+  const reloadRooms = () => {
+    fetchRooms(strategy)
+      .then((newRooms) => {
+        const previousRooms = rooms.slice();
+        normalizeRooms(previousRooms, newRooms);
+        if (JSON.stringify(previousRooms) !== JSON.stringify(newRooms)) {
           console.log('reloading rooms...');
+          const order = {};
+          rooms.forEach((r, i) => order[r.id] = i);
+          newRooms.sort((a, b) => order[a] - order[b]);
           rooms = newRooms;
           cb(rooms);
         }
@@ -108,9 +131,45 @@ const reloadRoomsListener = (strategy, cb) => {
   loadRooms();
 
   if (strategy === "GSUITE") {
-    setInterval(loadRooms, 10000);
+    setInterval(reloadRooms, 10000);
   }
 };
+
+const sortRoomsListener = (getUsersByRoom, cb) => {
+  let pendingUpdate = false;
+  const sortRooms = () => {
+    const usersByRoom = {};
+    rooms.forEach((r, i) =>
+      usersByRoom[r.id] = {
+        index: i,
+        users: getUsersByRoom(r.id)
+      });
+
+    const freezeRooms = JSON.stringify(rooms.map(r => r.id));
+    rooms.sort((a, b) => {
+      if (a.top !== b.top) {
+        return a.top ? -1 : 1;
+      }
+      if (a.top && b.top) {
+        return usersByRoom[a.id].index - usersByRoom[b.id].index;
+      }
+      const usersA = usersByRoom[a.id].users.length;
+      const usersB = usersByRoom[b.id].users.length;
+      if (usersA === usersB) {
+        return usersByRoom[a.id].index - usersByRoom[b.id].index;
+      }
+      return usersB - usersA;
+    });
+
+    if (pendingUpdate || JSON.stringify(rooms.map(r => r.id)) !== freezeRooms) {
+      pendingUpdate = !cb();
+    }
+  }
+  setTimeout(() => {
+    sortRooms();
+    setInterval(sortRooms, 10000);
+  }, 5000);
+}
 
 const closeRoom = (roomId) => {
   const room = rooms.filter(r => r.id === roomId)[0];
@@ -126,4 +185,4 @@ const openRoom = (roomId) => {
 
 const getRooms = () => rooms;
 
-export { getRooms, reloadRoomsListener, closeRoom, openRoom };
+export { getRooms, reloadRoomsListener, sortRoomsListener, closeRoom, openRoom };
