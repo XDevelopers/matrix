@@ -28,7 +28,8 @@ const useStyles = makeStyles(() => ({
   },
   inactive: {
     opacity: 0.2,
-    filter: 'grayscale(100%) blur(2px)',
+    // filter: 'grayscale(100%) blur(2px)',
+    filter: 'grayscale(90%)',
     "&:hover": {
       opacity: 1,
       filter: 'grayscale(100%)',
