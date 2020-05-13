@@ -67,7 +67,7 @@ const fetchGSuite = (env) => {
   // return Promise.all(promises).then(result => result[0].concat(result[1]));
 };
 
-const fetchRooms = (strategy) => {
+const fetchRoomsByStrategy = (strategy) => {
   switch (strategy) {
     // TODO add suport to fetch from endpoint
     case "GSUITE":
@@ -78,6 +78,14 @@ const fetchRooms = (strategy) => {
       return fetchFromFile();
   }
 };
+
+const fetchRooms = (strategy) => {
+  const updateSourceOrder = (rooms) => {
+    rooms.forEach((r, index) => r.sourceOrder = index);
+    return rooms;
+  }
+  return fetchRoomsByStrategy(strategy).then(updateSourceOrder);
+}
 
 const applyTemporaryFields = (newRooms) => {
   const tempFields = ['closed'];
@@ -92,6 +100,24 @@ const applyTemporaryFields = (newRooms) => {
 
 const reloadRoomsListener = (strategy, cb) => {
 
+  const normalizeRooms = (previousRooms, newRooms) => {
+    applyTemporaryFields(newRooms);
+    const idSort = (a, b) => a.id.localeCompare(b.id);
+    previousRooms.sort(idSort);
+    newRooms.sort(idSort);
+  }
+
+  const keepCurrentOrder = (newRooms) => {
+    const order = {};
+    rooms.forEach((r, i) => order[r.id] = i);
+    newRooms.sort((a, b) => {
+      if (a.id in order && b.id in order) {
+        return order[a.id] - order[b.id];
+      }
+      return a.id in order ? -1 : 1;
+    });
+  }
+
   const loadRooms = () => {
     fetchRooms(strategy)
       .then((newRooms) => {
@@ -103,13 +129,6 @@ const reloadRoomsListener = (strategy, cb) => {
       });
   }
 
-  const normalizeRooms = (previousRooms, newRooms) => {
-    applyTemporaryFields(newRooms);
-    const idSort = (a, b) => a.id.localeCompare(b.id);
-    previousRooms.sort(idSort);
-    newRooms.sort(idSort);
-  }
-
   const reloadRooms = () => {
     fetchRooms(strategy)
       .then((newRooms) => {
@@ -117,9 +136,7 @@ const reloadRoomsListener = (strategy, cb) => {
         normalizeRooms(previousRooms, newRooms);
         if (JSON.stringify(previousRooms) !== JSON.stringify(newRooms)) {
           console.log('Reloading rooms...');
-          const order = {};
-          rooms.forEach((r, i) => order[r.id] = i);
-          newRooms.sort((a, b) => order[a] - order[b]);
+          keepCurrentOrder(newRooms);
           rooms = newRooms;
           cb(rooms);
         }
@@ -152,7 +169,7 @@ const sortRoomsListener = (getUsersByRoom, getLastActivity, cb) => {
         return a.top ? -1 : 1;
       }
       if (a.top && b.top) {
-        return usersByRoom[a.id].index - usersByRoom[b.id].index;
+        return a.sourceOrder - b.sourceOrder;
       }
       const usersA = usersByRoom[a.id].users.length;
       const usersB = usersByRoom[b.id].users.length;
@@ -165,6 +182,8 @@ const sortRoomsListener = (getUsersByRoom, getLastActivity, cb) => {
     if (pendingUpdate || JSON.stringify(newRoomsOrder.map(r => r.id)) !== freezeRooms) {
       if (new Date().getTime() - getLastActivity() >= 10000) {
         console.log('Sorting rooms...');
+        console.log('freeze', freezeRooms);
+        console.log('after', JSON.stringify(newRoomsOrder.map(r => r.id)));
         pendingUpdate = false;
         rooms = newRoomsOrder;
         cb();
