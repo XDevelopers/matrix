@@ -132,7 +132,7 @@ const MorpheusApp = ({
   }
 
   return (
-    <div onMouseMove={emitUserActivity} >
+    <div onMouseMove={emitUserActivity} onClick={emitUserActivity}>
       <PageLayout
         renderAppBarMenu={() => <AppBarRouter />}
         renderSideBarMenu={() => (

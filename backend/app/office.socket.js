@@ -21,13 +21,8 @@ class Office {
     this.roomsController.reloadRoomsListener(ROOMS_SOURCE, () => this.updateRooms());
     this.roomsController.sortRoomsListener(
       roomId => this.officeController.getUsersByRoom(roomId),
-      () => {
-        if (new Date().getTime() - this.lastActivity >= 10000) {
-          this.updateRooms();
-          return true;
-        }
-        return false;
-      });
+      () => this.lastActivity,
+      () => this.updateRooms());
 
     this.io.use((socket, next) => {
       const serializedUser = socket.handshake.query.user;

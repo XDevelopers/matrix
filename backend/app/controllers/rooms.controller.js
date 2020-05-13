@@ -116,7 +116,7 @@ const reloadRoomsListener = (strategy, cb) => {
         const previousRooms = rooms.slice();
         normalizeRooms(previousRooms, newRooms);
         if (JSON.stringify(previousRooms) !== JSON.stringify(newRooms)) {
-          console.log('reloading rooms...');
+          console.log('Reloading rooms...');
           const order = {};
           rooms.forEach((r, i) => order[r.id] = i);
           newRooms.sort((a, b) => order[a] - order[b]);
@@ -135,7 +135,7 @@ const reloadRoomsListener = (strategy, cb) => {
   }
 };
 
-const sortRoomsListener = (getUsersByRoom, cb) => {
+const sortRoomsListener = (getUsersByRoom, getLastActivity, cb) => {
   let pendingUpdate = false;
   const sortRooms = () => {
     const usersByRoom = {};
@@ -146,7 +146,8 @@ const sortRoomsListener = (getUsersByRoom, cb) => {
       });
 
     const freezeRooms = JSON.stringify(rooms.map(r => r.id));
-    rooms.sort((a, b) => {
+    const newRoomsOrder = rooms.slice();
+    newRoomsOrder.sort((a, b) => {
       if (a.top !== b.top) {
         return a.top ? -1 : 1;
       }
@@ -161,8 +162,15 @@ const sortRoomsListener = (getUsersByRoom, cb) => {
       return usersB - usersA;
     });
 
-    if (pendingUpdate || JSON.stringify(rooms.map(r => r.id)) !== freezeRooms) {
-      pendingUpdate = !cb();
+    if (pendingUpdate || JSON.stringify(newRoomsOrder.map(r => r.id)) !== freezeRooms) {
+      if (new Date().getTime() - getLastActivity() >= 10000) {
+        console.log('Sorting rooms...');
+        pendingUpdate = false;
+        rooms = newRoomsOrder;
+        cb();
+      } else {
+        pendingUpdate = true;
+      }
     }
   }
   setTimeout(() => {
