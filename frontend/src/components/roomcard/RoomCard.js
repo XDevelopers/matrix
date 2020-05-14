@@ -9,7 +9,8 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+
+import UserAvatar from "./UserAvatar";
 
 const OPEN_ROOM_MILLIS = 30 * 60 * 1000;
 
@@ -76,32 +77,6 @@ const useStyles = makeStyles(() => ({
   },
   emptyUserSpace: {
     height: 0
-  },
-  avatar: {
-    "&:hover": {
-      transform: "scale(1.7)",
-      zIndex: 100
-    },
-    border: '1px solid #444',
-    filter: 'brightness(130%) drop-shadow(3px 3px 2px #000)',
-  },
-  avatarInMeeting: {    
-    position: "relative",
-    "&:hover": {
-      transform: "scale(1.7)",
-      zIndex: 100
-    },
-    "&:after": {
-      content: "''",
-      position: "absolute",
-      top: -2,
-      left: -3,
-      width: 46,
-      height: 40,
-      background: "url('/images/headset.svg')",
-      backgroundSize: "contain",
-      backgroundRepeat: "no-repeat"
-    }
   },
   actionButton: {
     color: '#CCC',
@@ -330,15 +305,7 @@ const RoomCard = (
           </Typography>
           <div className={classes.userGrid}>
             {userToShow.map(user => (
-              <Tooltip key={user.id} title={user.name}>
-                <div
-                  className={clsx({
-                    [classes.avatarInMeeting]: user.inMeet
-                  })}
-                >
-                  <Avatar className={classes.avatar} src={decodeURIComponent(user.imageUrl)} />
-                </div>
-              </Tooltip>
+              <UserAvatar user={user} />
             ))}
             {totalUsersHidden > 0 && (
               <Tooltip title={`more ${totalUsersHidden} users`}>

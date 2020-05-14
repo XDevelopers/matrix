@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Grid from "../../components/Grid";
 import ManageRoomsCard from "../../components/ManageRoomsCard";
-import RoomCard from "../../components/RoomCard";
+import RoomCard from "../../components/roomcard/RoomCard";
 import {
   selectOffice,
   selectCurrentRoom,
