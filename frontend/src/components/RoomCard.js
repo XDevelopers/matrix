@@ -79,7 +79,8 @@ const useStyles = makeStyles(() => ({
   },
   avatar: {
     "&:hover": {
-      transform: "scale(1.7)"
+      transform: "scale(1.7)",
+      zIndex: 100
     },
     border: '1px solid #444',
     filter: 'brightness(130%) drop-shadow(3px 3px 2px #000)',
@@ -87,7 +88,8 @@ const useStyles = makeStyles(() => ({
   avatarInMeeting: {    
     position: "relative",
     "&:hover": {
-      transform: "scale(1.7)"
+      transform: "scale(1.7)",
+      zIndex: 100
     },
     "&:after": {
       content: "''",
