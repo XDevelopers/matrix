@@ -3,9 +3,20 @@ import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import PhoneForwardedIcon from "@material-ui/icons/PhoneForwarded";
+
 import clsx from "clsx";
 
 const useStyles = makeStyles(() => ({
+    title: {
+        fontSize: '1.4em',
+        textAlign: 'center',
+        margin: 10
+    },
+    actions: {
+        marginTop: 10
+    },
     avatar: {
         "&:hover": {
             transform: "scale(1.7)",
@@ -34,10 +45,32 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const UserAvatar = ({ user }) => {
+const useTooltipClasses = makeStyles(() => ({
+    tooltip: {
+        backgroundColor: '#444',
+        boxShadow: '-3px 3px 0px rgba(0, 0, 0, 0.15)'
+    }
+}));
+
+const TooltipTitle = ({ name }) => {
     const classes = useStyles();
     return (
-        <Tooltip key={user.id} title={user.name}>
+        <section className={classes.title}>
+            <div>{name}</div>
+            <div className={classes.actions}>
+                <IconButton>
+                    <PhoneForwardedIcon />
+                </IconButton>
+            </div>
+        </section>
+    );
+};
+
+const UserAvatar = ({ user }) => {
+    const classes = useStyles();
+    const tooltipClasses = useTooltipClasses();
+    return (
+        <Tooltip title={<TooltipTitle name={user.name} />} classes={tooltipClasses} interactive>
             <div
                 className={clsx({
                     [classes.avatarInMeeting]: user.inMeet

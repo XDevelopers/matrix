@@ -305,7 +305,7 @@ const RoomCard = (
           </Typography>
           <div className={classes.userGrid}>
             {userToShow.map(user => (
-              <UserAvatar user={user} />
+              <UserAvatar key={user.id} user={user} />
             ))}
             {totalUsersHidden > 0 && (
               <Tooltip title={`more ${totalUsersHidden} users`}>
