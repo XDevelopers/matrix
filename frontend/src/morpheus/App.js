@@ -201,6 +201,7 @@ const MorpheusApp = ({
       />
       <MessageDialog />
       <ConfirmLogoutDialog />
+      <audio id="audio-enter-meeting" src="https://storage.googleapis.com/dexmatrix-public/fx/psiu.mp3" />
     </div >
   );
 };

@@ -51,7 +51,7 @@ const useEvents = (
       events.onEnterRoomAllowed((user, roomId) => {
         const room = rooms.find(r => r.id === roomId);
         saveCurrentUserRoom(room.id);
-        onSetCurrentRoom(room);              
+        onSetCurrentRoom(room);
         onAddUser(currentUser, room.id);
         history.replace(`/morpheus/office/${room.id}`);
         setTimeout(() => {
@@ -69,6 +69,12 @@ const useEvents = (
       });
       events.onParticipantStartedMeet((user, roomId) => {
         onUserEnterMeeting(user, roomId);
+        if (currentUser.id !== user.id && currentRoom.id === roomId) {
+          const audio = document.getElementById('audio-enter-meeting');
+          audio.volume = 0.1;
+          audio.play();
+        }
+
       });
       events.onParticipantLeftMeet((user, roomId) => {
         onUserLeftMeeting(user, roomId);
