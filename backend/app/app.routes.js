@@ -53,15 +53,14 @@ router.get(
       }
 
       try {
-        if (req.headers.cookie.indexOf('mock-matrix') != -1 &&
-          req.headers.host.indexOf('localhost') != -1) {
+        if (req.headers.cookie.indexOf('mock-matrix') != -1) {
           console.log('mocking...');
           profile.id = '12345';
           profile.name = 'Mr Mock';
           profile.email = 'mock@dextra-sw.com';
         }
       } catch (err) {
-        console.log('err', err)
+        console.log('mock err', err)
       }
 
       req.session.currentUser = profile;
