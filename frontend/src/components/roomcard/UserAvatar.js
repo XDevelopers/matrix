@@ -17,11 +17,11 @@ const useStyles = makeStyles(() => ({
     actions: {
         marginTop: 10
     },
+    avatarScale: {
+        transform: "scale(1.7)",
+        zIndex: 100
+    },
     avatar: {
-        "&:hover": {
-            transform: "scale(1.7)",
-            zIndex: 100
-        },
         border: '1px solid #444',
         filter: 'brightness(130%) drop-shadow(3px 3px 2px #000)',
     },
@@ -47,6 +47,7 @@ const useStyles = makeStyles(() => ({
 
 const useTooltipClasses = makeStyles(() => ({
     tooltip: {
+        margin: -10,
         backgroundColor: '#444',
         boxShadow: '-3px 3px 0px rgba(0, 0, 0, 0.15)'
     }
@@ -54,6 +55,7 @@ const useTooltipClasses = makeStyles(() => ({
 
 const TooltipTitle = ({ name }) => {
     const classes = useStyles();
+
     return (
         <section className={classes.title}>
             <div>{name}</div>
@@ -69,9 +71,20 @@ const TooltipTitle = ({ name }) => {
 const UserAvatar = ({ user }) => {
     const classes = useStyles();
     const tooltipClasses = useTooltipClasses();
+
+    const avatarRef = React.createRef();
+
+    const onOpen = () => {
+        avatarRef.current.classList.add(classes.avatarScale);
+    }
+
+    const onClose = () => {
+        avatarRef.current.classList.remove(classes.avatarScale);
+    }
+
     return (
-        <Tooltip title={<TooltipTitle name={user.name} />} classes={tooltipClasses} interactive>
-            <div
+        <Tooltip title={<TooltipTitle name={user.name} />} classes={tooltipClasses} arrow="top" interactive onOpen={onOpen} onClose={onClose}>
+            <div ref={avatarRef}
                 className={clsx({
                     [classes.avatarInMeeting]: user.inMeet
                 })}>
