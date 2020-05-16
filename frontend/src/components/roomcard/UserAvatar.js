@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
 
 const useTooltipClasses = makeStyles(() => ({
     tooltip: {
-        margin: -10,
+        margin: "2px",
         backgroundColor: '#444',
         boxShadow: '-3px 3px 0px rgba(0, 0, 0, 0.15)'
     }
@@ -59,11 +59,11 @@ const TooltipTitle = ({ name }) => {
     return (
         <section className={classes.title}>
             <div>{name}</div>
-            <div className={classes.actions}>
+            {/* <div className={classes.actions}>
                 <IconButton>
                     <PhoneForwardedIcon />
                 </IconButton>
-            </div>
+            </div> */}
         </section>
     );
 };
