@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-    paddingTop: 6,
+    paddingTop: 2,
     display: 'inline'
   },
   title: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
     display: 'inline',
     padding: 0,
     margin: 0,
-    verticalAlign: 'top',
+    // verticalAlign: 'top',
     ['@media (max-width:670px)']: {
       display: 'none'
     }
@@ -23,6 +23,8 @@ const useStyles = makeStyles(() => ({
     width: 120,
     // marginTop: -2,
     marginRight: 16,
+    verticalAlign: 'bottom',
+    marginBottom: 9,
     filter: 'drop-shadow(5px 5px 2px #222)',
     display: 'inline'
   }
@@ -30,7 +32,9 @@ const useStyles = makeStyles(() => ({
 
 const getLogoSrc = () => {
   const host = window.location.hostname;
-  return `https://storage.googleapis.com/dexmatrix-public/images/${host}.png`;
+  return `https://storage.googleapis.com/dexmatrix-public/images/${host}/logo.png`;
+  // return 'https://storage.googleapis.com/dexmatrix-public/images/matrix.mutantbr.com/logo.png'
+  // return 'https://storage.googleapis.com/dexmatrix-public/images/matrix.dextra.com.br/logo.png'
 }
 
 const AppBarTitle = ({ children }) => {
