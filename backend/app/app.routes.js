@@ -1,7 +1,6 @@
 import express from "express";
 import passport from "passport";
 import { findEvents } from "./helpers/gsuite/calendar";
-import { userInfo } from "./helpers/gsuite/directory";
 import { getRooms } from "./controllers/rooms.controller";
 
 const router = express.Router();
@@ -75,5 +74,12 @@ router.post("/auth/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
+
+router.get("/gsuite/spreadsheet", (req, res) => {
+  const spreadsheetId = process.env.GSUITE_SPREADSHEET_KEY;
+  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=0`;
+  res.redirect(url);
+});
+
 
 module.exports = router;

@@ -33,8 +33,7 @@ const spreadsheetId = '1bYvuKaxKEytwBOqwEFVf4iDkkTtO2Dvk4GsmJKlhcwQ';
 
 function openSpreadsheet() {
   console.log('manage rooms', spreadsheetId);
-  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=0`;
-  window.open(url, "_blank")
+  window.open("/gsuite/spreadsheet", "_blank")
 }
 
 const ManageRoomsCard = () => {
