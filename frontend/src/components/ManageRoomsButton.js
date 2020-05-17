@@ -5,12 +5,9 @@ import IconButton from "@material-ui/core/IconButton";
 import AddCircleOutline from "@material-ui/icons/AddCircleOutline";
 import Tooltip from "@material-ui/core/Tooltip";
 
-const spreadsheetId = '1bYvuKaxKEytwBOqwEFVf4iDkkTtO2Dvk4GsmJKlhcwQ';
-
 function openSpreadsheet() {
-  console.log('manage rooms', spreadsheetId);
-  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=0`;
-  window.open(url, "_blank")
+  console.log('manage rooms');
+  window.open("/gsuite/spreadsheet", "_blank")
 }
 
 function ManageRoomsButton() {
