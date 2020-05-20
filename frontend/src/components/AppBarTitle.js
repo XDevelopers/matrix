@@ -7,11 +7,12 @@ const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
     paddingTop: 2,
-    display: 'inline'
+    display: 'flex',
+    alignItems: 'center'
+    // justifyContent: 'center'    
   },
   title: {
     filter: 'drop-shadow(5px 5px 2px #222)',
-    display: 'inline',
     padding: 0,
     margin: 0,
     // verticalAlign: 'top',
@@ -20,19 +21,20 @@ const useStyles = makeStyles(() => ({
     }
   },
   logo: {
-    width: 120,
+    maxWidth: 120,
+    maxHeight: 35,
     // marginTop: -2,
     marginRight: 16,
     verticalAlign: 'bottom',
     marginBottom: 9,
     filter: 'drop-shadow(5px 5px 2px #222)',
-    display: 'inline'
   }
 }));
 
 const getLogoSrc = () => {
+  const t = new Date().getTime();
   const host = window.location.hostname;
-  return `https://storage.googleapis.com/dexmatrix-public/images/${host}/logo.png`;
+  return `https://storage.googleapis.com/dexmatrix-public/images/${host}/logo.png?t=${t}`;
   // return 'https://storage.googleapis.com/dexmatrix-public/images/matrix.mutantbr.com/logo.png'
   // return 'https://storage.googleapis.com/dexmatrix-public/images/matrix.dextra.com.br/logo.png'
 }
