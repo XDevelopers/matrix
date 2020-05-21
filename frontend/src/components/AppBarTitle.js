@@ -21,8 +21,8 @@ const useStyles = makeStyles(() => ({
     }
   },
   logo: {
-    maxWidth: 120,
-    maxHeight: 35,
+    // maxWidth: 120,
+    maxHeight: 27,
     // marginTop: -2,
     marginRight: 16,
     verticalAlign: 'bottom',
@@ -45,9 +45,9 @@ const AppBarTitle = ({ children }) => {
   return (
     <section className={classes.root}>
       <img className={classes.logo} src={getLogoSrc()} />
-      <Typography variant="h6" className={classes.title} color="secondary">
+      {/* <Typography variant="h6" className={classes.title} color="secondary">
         {children}
-      </Typography>
+      </Typography> */}
     </section>
   );
 };
