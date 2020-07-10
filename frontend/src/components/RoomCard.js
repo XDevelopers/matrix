@@ -228,13 +228,9 @@ const RoomCard = (
     blink,
     start, users,
     currentUser,
-    closed,
     top,
     meetingEnabled,
     onEnterRoom,
-    onCloseRoom,
-    onOpenRoom,
-    onKnockRoom,
     onEnterMeeting }) => {
 
   const [isExpanded, toggleExpand] = useState(false);
@@ -245,7 +241,7 @@ const RoomCard = (
   const style = parseStyle(styleStr);
   const insideRoom = users.filter(u => u.id === currentUser.id).length > 0;
 
-  const RoomActions1 = () => {
+  const RoomActions = () => {
     return (
       <CardActions>
         {!insideRoom && (
@@ -254,38 +250,6 @@ const RoomCard = (
           </Button>
         )}
         {meetingEnabled && (
-          <Button size="small" className={classes.actionButton} onClick={onEnterMeeting}>
-            Join meeting
-          </Button>
-        )}
-      </CardActions>
-    )
-  }
-
-  const RoomActions = () => {
-    return (
-      <CardActions>
-        {insideRoom && !closed && !top && (
-          <Button size="small" className={classes.closeButton} onClick={onCloseRoom}>
-            Close
-          </Button>
-        )}
-        {insideRoom && closed && !top && (
-          <Button size="small" className={classes.openButton} onClick={onOpenRoom}>
-            Open
-          </Button>
-        )}
-        {!insideRoom && closed && !top && (
-          <Button size="small" className={classes.knockButton} onClick={onKnockRoom}>
-            Knock
-          </Button>
-        )}
-        {!insideRoom && !closed && (
-          <Button size="small" className={classes.actionButton} onClick={onEnterRoom}>
-            Enter
-          </Button>
-        )}
-        {meetingEnabled && (insideRoom || !closed) && (
           <Button size="small" className={classes.actionButton} onClick={onEnterMeeting}>
             Join meeting
           </Button>
